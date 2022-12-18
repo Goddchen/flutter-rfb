@@ -16,6 +16,7 @@ class MyApp extends StatelessWidget {
           ),
           body: Center(
             child: InteractiveViewer(
+              constrained: false,
               child: const RemoteFrameBufferWidget(),
             ),
           ),
