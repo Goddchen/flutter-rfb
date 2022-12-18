@@ -1,93 +1,57 @@
 import 'dart:async';
 import 'dart:isolate';
-import 'dart:typed_data';
+import 'dart:ui';
 
 import 'package:dart_rfb/dart_rfb.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart' hide Image;
 import 'package:flutter_vnc/src/remote_frame_buffer_isolate_messages.dart';
 import 'package:fpdart/fpdart.dart' hide State;
+
+Future<void> _startVncClient(
+  final RemoteFrameBufferIsolateSendMessage sendMessage,
+) async {
+  final RemoteFrameBufferClient client = RemoteFrameBufferClient();
+  client.updateStream.listen(
+    (final RemoteFrameBufferClientUpdate update) {
+      sendMessage.sendPort.send(
+        RemoteFrameBufferIsolateReceiveMessage(
+          frameBufferHeight: client.config
+              .map((final Config config) => config.frameBufferHeight)
+              .getOrElse(() => 0),
+          frameBufferWidth: client.config
+              .map((final Config config) => config.frameBufferWidth)
+              .getOrElse(() => 0),
+          update: update,
+        ),
+      );
+    },
+  );
+  await client.connect();
+  unawaited(client.start());
+}
 
 class RemoteFrameBufferWidget extends StatefulWidget {
   const RemoteFrameBufferWidget({super.key});
 
   @override
   State<RemoteFrameBufferWidget> createState() =>
-      _RemoteFrameBufferWidgetState();
+      RemoteFrameBufferWidgetState();
 }
 
-class _RemoteFrameBufferWidgetState extends State<RemoteFrameBufferWidget> {
-  // final RemoteFrameBufferClient _remoteFrameBufferClient =
-  //     RemoteFrameBufferClient();
+@visibleForTesting
+class RemoteFrameBufferWidgetState extends State<RemoteFrameBufferWidget> {
   Option<StreamSubscription<RemoteFrameBufferIsolateReceiveMessage>>
       _streamSubscription = none();
-  Option<Iterable<Iterable<int>>> _frameBuffer = none();
+  Option<ByteData> _frameBuffer = none();
   Option<Isolate> _isolate = none();
+  Option<Image> _image = none();
 
   @override
-  void initState() {
-    super.initState();
-    unawaited(_initAsync());
-  }
-
-  @override
-  Widget build(final BuildContext context) => _frameBuffer.match(
-        () => const CircularProgressIndicator(),
-        (final Iterable<Iterable<int>> frameBuffer) => CustomPaint(
-          painter: MyCustomPainter(frameBuffer: frameBuffer),
-          size: Size(
-            frameBuffer.firstOption
-                .map((final Iterable<int> row) => row.length)
-                .getOrElse(() => 0)
-                .toDouble(),
-            frameBuffer.length.toDouble(),
-            // 5000, 5000,
-          ),
-        ),
+  Widget build(final BuildContext context) => _image.match(
+        () => const Center(child: CircularProgressIndicator()),
+        (final Image image) => RawImage(image: image),
       );
-
-  Future<void> _initAsync() async {
-    final ReceivePort receivePort = ReceivePort();
-    _streamSubscription = some(
-      receivePort
-          .where(
-            (final Object? event) =>
-                event != null &&
-                event is RemoteFrameBufferIsolateReceiveMessage,
-          )
-          .cast<RemoteFrameBufferIsolateReceiveMessage>()
-          .listen(
-        (final RemoteFrameBufferIsolateReceiveMessage message) {
-          // ignore: avoid_print
-          print('Received new frame buffer message');
-          setState(() {
-            _frameBuffer = some(message.frameBuffer);
-          });
-        },
-      ),
-    );
-    _isolate = some(
-      await Isolate.spawn(
-        _startVncClient,
-        RemoteFrameBufferIsolateSendMessage(sendPort: receivePort.sendPort),
-      ),
-    );
-    // _streamSubscription = some(
-    //   _remoteFrameBufferClient.frameBufferUpdateStream
-    //       .listen((final FrameBuffer frameBuffer) {
-    //     setState(() {
-    //       _frameBuffer = some(frameBuffer);
-    //     });
-    //     // _streamSubscription.match(() {},
-    //     //     (final StreamSubscription<Iterable<Iterable<int>>> subscription) {
-    //     //   subscription.cancel();
-    //     //   _streamSubscription = none();
-    //     //   _remoteFrameBufferClient.close();
-    //     // });
-    //   }),
-    // );
-    // await _remoteFrameBufferClient.connect();
-    // unawaited(_remoteFrameBufferClient.start());
-  }
 
   @override
   void dispose() {
@@ -103,113 +67,115 @@ class _RemoteFrameBufferWidgetState extends State<RemoteFrameBufferWidget> {
       () {},
       (final Isolate isolate) => isolate.kill(),
     );
-    // unawaited(_remoteFrameBufferClient.close());
     super.dispose();
   }
-}
-
-class MyCustomPainter extends CustomPainter {
-  final Iterable<Iterable<int>> _frameBuffer;
-
-  final Paint _paint = Paint();
-
-  MyCustomPainter({required final Iterable<Iterable<int>> frameBuffer})
-      : _frameBuffer = frameBuffer;
 
   @override
-  void paint(final Canvas canvas, final Size size) {
-    // for (int row = 0; row < _frameBuffer.length; row++) {
-    //   for (int column = 0;
-    //       column < _frameBuffer.elementAt(row).length;
-    //       column++) {
-    // for (int row = 0; row < min(50, _frameBuffer.length); row++) {
-    //   for (int column = 0;
-    //       column < min(50, _frameBuffer.elementAt(row).length);
-    //       column++) {
-    // for (int row = 0; row < _frameBuffer.length; row += 1000) {
-    //   for (int column = 0;
-    //       column < _frameBuffer.elementAt(row).length;
-    //       column += 1000) {
-    // for (int row = 0; row < size.height; row += 1000) {
-    //   for (int column = 0; column < size.width; column += 1000) {
-    //     canvas.drawRect(
-    //       Rect.fromLTWH(column.toDouble(), row.toDouble(), 1000, 1000),
-    //       _paint
-    //         ..color = Color.fromARGB(
-    //           255,
-    //           randomInt(0, 255).run(),
-    //           randomInt(0, 255).run(),
-    //           randomInt(0, 255).run(),
-    //         ),
-    //     );
-    // final int pixel = _frameBuffer.elementAt(row).elementAt(column);
-    // canvas.drawRect(
-    //   Rect.fromLTWH(column.toDouble(), row.toDouble(), 1, 1),
-    //   _paint..color = pixel == 0 ? Colors.black : Color(pixel),
-    // );
-    //   }
-    // }
-    // for (int row = 0; row < size.height; row++) {
-    //   for (int column = 0; column < size.width; column++) {
-    //     final Uint8List pixelBytes = Uint8List(4);
-    //     pixelBytes.buffer
-    //         .asByteData()
-    //         .setUint32(0, _frameBuffer.elementAt(row).elementAt(column));
-    //     canvas.drawRect(
-    //       Rect.fromLTWH(
-    //         column.toDouble(),
-    //         row.toDouble(),
-    //         1,
-    //         1,
-    //       ),
-    //       _paint
-    //         ..color = Color.fromARGB(
-    //           255,
-    //           pixelBytes[1],
-    //           pixelBytes[2],
-    //           pixelBytes[3],
-    //         ),
-    //     );
-    //   }
-    // }
-    int squareSize = 100;
-    for (int row = 0; row < size.height; row += squareSize) {
-      for (int column = 0; column < size.width; column += squareSize) {
-        canvas.drawRect(
-          Rect.fromLTWH(
-            column.toDouble(),
-            row.toDouble(),
-            squareSize.toDouble(),
-            squareSize.toDouble(),
-          ),
-          _paint
-            ..color = Color.fromARGB(
-              255,
-              randomInt(0, 255).run(),
-              randomInt(0, 255).run(),
-              randomInt(0, 255).run(),
-            ),
-        );
-      }
-    }
+  void initState() {
+    super.initState();
+    unawaited(_initAsync());
   }
 
-  @override
-  bool shouldRepaint(covariant final CustomPainter oldDelegate) =>
-      (oldDelegate as MyCustomPainter)._frameBuffer != _frameBuffer;
-}
+  Future<void> _initAsync() async {
+    final ReceivePort receivePort = ReceivePort();
+    _streamSubscription = some(
+      receivePort
+          .where(
+            (final Object? event) =>
+                event != null &&
+                event is RemoteFrameBufferIsolateReceiveMessage,
+          )
+          .cast<RemoteFrameBufferIsolateReceiveMessage>()
+          .listen(
+        (final RemoteFrameBufferIsolateReceiveMessage message) {
+          // ignore: avoid_print
+          print('Received new update message');
+          if (_frameBuffer.isNone()) {
+            _frameBuffer = some(
+              ByteData(
+                message.frameBufferHeight * message.frameBufferWidth * 4,
+              ),
+            );
+          }
+          unawaited(
+            _frameBuffer.match(
+              () async {},
+              (final ByteData frameBuffer) async {
+                for (final RemoteFrameBufferClientUpdateRectangle rectangle
+                    in message.update.rectangles) {
+                  (await updateFrameBuffer(
+                    frameBuffer: frameBuffer,
+                    frameBufferSize: Size(
+                      message.frameBufferWidth.toDouble(),
+                      message.frameBufferHeight.toDouble(),
+                    ),
+                    rectangle: rectangle,
+                  ).run())
+                      .match(
+                    (final Object error) =>
+                        // ignore: avoid_print
+                        print('Error updating frame buffer: $error'),
+                    (final _) {},
+                  );
+                }
+                decodeImageFromPixels(
+                  frameBuffer.buffer.asUint8List(
+                    frameBuffer.offsetInBytes,
+                    frameBuffer.lengthInBytes,
+                  ),
+                  message.frameBufferWidth,
+                  message.frameBufferHeight,
+                  PixelFormat.rgba8888,
+                  (final Image result) => setState(
+                    () {
+                      _image.match(
+                        () {},
+                        (final Image image) => image.dispose(),
+                      );
+                      _image = some(result);
+                    },
+                  ),
+                );
+                // _isolate.match(
+                //   () {},
+                //   (final Isolate isolate) => isolate.kill(),
+                // );
+              },
+            ),
+          );
+        },
+      ),
+    );
+    _isolate = some(
+      await Isolate.spawn(
+        _startVncClient,
+        RemoteFrameBufferIsolateSendMessage(sendPort: receivePort.sendPort),
+      ),
+    );
+  }
 
-Future<void> _startVncClient(
-  final RemoteFrameBufferIsolateSendMessage sendMessage,
-) async {
-  final RemoteFrameBufferClient client = RemoteFrameBufferClient();
-  client.frameBufferUpdateStream.listen(
-    (final FrameBuffer frameBuffer) {
-      sendMessage.sendPort.send(
-        RemoteFrameBufferIsolateReceiveMessage(frameBuffer: frameBuffer),
+  @visibleForTesting
+  static TaskEither<Object, void> updateFrameBuffer({
+    required final ByteData frameBuffer,
+    required final Size frameBufferSize,
+    required final RemoteFrameBufferClientUpdateRectangle rectangle,
+  }) =>
+      TaskEither<Object, void>.tryCatch(
+        () async {
+          for (int y = 0; y < rectangle.height; y++) {
+            for (int x = 0; x < rectangle.width; x++) {
+              final int frameBufferX = rectangle.x + x;
+              final int frameBufferY = rectangle.y + y;
+              final int pixelBytes =
+                  rectangle.byteData.getUint32(y * rectangle.width + x * 4);
+              frameBuffer.setUint32(
+                (frameBufferY * frameBufferSize.width + frameBufferX * 4)
+                    .toInt(),
+                pixelBytes,
+              );
+            }
+          }
+        },
+        (final Object error, final _) => error,
       );
-    },
-  );
-  await client.connect();
-  unawaited(client.start());
 }

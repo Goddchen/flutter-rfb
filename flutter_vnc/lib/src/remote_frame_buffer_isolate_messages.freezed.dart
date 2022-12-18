@@ -99,6 +99,7 @@ class __$$_RemoteFrameBufferIsolateSendMessageCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_RemoteFrameBufferIsolateSendMessage
+    with DiagnosticableTreeMixin
     implements _RemoteFrameBufferIsolateSendMessage {
   _$_RemoteFrameBufferIsolateSendMessage({required this.sendPort});
 
@@ -106,8 +107,16 @@ class _$_RemoteFrameBufferIsolateSendMessage
   final SendPort sendPort;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'RemoteFrameBufferIsolateSendMessage(sendPort: $sendPort)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'RemoteFrameBufferIsolateSendMessage'))
+      ..add(DiagnosticsProperty('sendPort', sendPort));
   }
 
   @override
@@ -148,7 +157,10 @@ abstract class _RemoteFrameBufferIsolateSendMessage
 
 /// @nodoc
 mixin _$RemoteFrameBufferIsolateReceiveMessage {
-  Iterable<Iterable<int>> get frameBuffer => throw _privateConstructorUsedError;
+  RemoteFrameBufferClientUpdate get update =>
+      throw _privateConstructorUsedError;
+  int get frameBufferHeight => throw _privateConstructorUsedError;
+  int get frameBufferWidth => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $RemoteFrameBufferIsolateReceiveMessageCopyWith<
@@ -164,7 +176,12 @@ abstract class $RemoteFrameBufferIsolateReceiveMessageCopyWith<$Res> {
       _$RemoteFrameBufferIsolateReceiveMessageCopyWithImpl<$Res,
           RemoteFrameBufferIsolateReceiveMessage>;
   @useResult
-  $Res call({Iterable<Iterable<int>> frameBuffer});
+  $Res call(
+      {RemoteFrameBufferClientUpdate update,
+      int frameBufferHeight,
+      int frameBufferWidth});
+
+  $RemoteFrameBufferClientUpdateCopyWith<$Res> get update;
 }
 
 /// @nodoc
@@ -181,14 +198,32 @@ class _$RemoteFrameBufferIsolateReceiveMessageCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? frameBuffer = null,
+    Object? update = null,
+    Object? frameBufferHeight = null,
+    Object? frameBufferWidth = null,
   }) {
     return _then(_value.copyWith(
-      frameBuffer: null == frameBuffer
-          ? _value.frameBuffer
-          : frameBuffer // ignore: cast_nullable_to_non_nullable
-              as Iterable<Iterable<int>>,
+      update: null == update
+          ? _value.update
+          : update // ignore: cast_nullable_to_non_nullable
+              as RemoteFrameBufferClientUpdate,
+      frameBufferHeight: null == frameBufferHeight
+          ? _value.frameBufferHeight
+          : frameBufferHeight // ignore: cast_nullable_to_non_nullable
+              as int,
+      frameBufferWidth: null == frameBufferWidth
+          ? _value.frameBufferWidth
+          : frameBufferWidth // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $RemoteFrameBufferClientUpdateCopyWith<$Res> get update {
+    return $RemoteFrameBufferClientUpdateCopyWith<$Res>(_value.update, (value) {
+      return _then(_value.copyWith(update: value) as $Val);
+    });
   }
 }
 
@@ -201,7 +236,13 @@ abstract class _$$_RemoteFrameBufferIsolateReceiveMessageCopyWith<$Res>
       __$$_RemoteFrameBufferIsolateReceiveMessageCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Iterable<Iterable<int>> frameBuffer});
+  $Res call(
+      {RemoteFrameBufferClientUpdate update,
+      int frameBufferHeight,
+      int frameBufferWidth});
+
+  @override
+  $RemoteFrameBufferClientUpdateCopyWith<$Res> get update;
 }
 
 /// @nodoc
@@ -217,13 +258,23 @@ class __$$_RemoteFrameBufferIsolateReceiveMessageCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? frameBuffer = null,
+    Object? update = null,
+    Object? frameBufferHeight = null,
+    Object? frameBufferWidth = null,
   }) {
     return _then(_$_RemoteFrameBufferIsolateReceiveMessage(
-      frameBuffer: null == frameBuffer
-          ? _value.frameBuffer
-          : frameBuffer // ignore: cast_nullable_to_non_nullable
-              as Iterable<Iterable<int>>,
+      update: null == update
+          ? _value.update
+          : update // ignore: cast_nullable_to_non_nullable
+              as RemoteFrameBufferClientUpdate,
+      frameBufferHeight: null == frameBufferHeight
+          ? _value.frameBufferHeight
+          : frameBufferHeight // ignore: cast_nullable_to_non_nullable
+              as int,
+      frameBufferWidth: null == frameBufferWidth
+          ? _value.frameBufferWidth
+          : frameBufferWidth // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -231,15 +282,34 @@ class __$$_RemoteFrameBufferIsolateReceiveMessageCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_RemoteFrameBufferIsolateReceiveMessage
+    with DiagnosticableTreeMixin
     implements _RemoteFrameBufferIsolateReceiveMessage {
-  const _$_RemoteFrameBufferIsolateReceiveMessage({required this.frameBuffer});
+  const _$_RemoteFrameBufferIsolateReceiveMessage(
+      {required this.update,
+      required this.frameBufferHeight,
+      required this.frameBufferWidth});
 
   @override
-  final Iterable<Iterable<int>> frameBuffer;
+  final RemoteFrameBufferClientUpdate update;
+  @override
+  final int frameBufferHeight;
+  @override
+  final int frameBufferWidth;
 
   @override
-  String toString() {
-    return 'RemoteFrameBufferIsolateReceiveMessage(frameBuffer: $frameBuffer)';
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'RemoteFrameBufferIsolateReceiveMessage(update: $update, frameBufferHeight: $frameBufferHeight, frameBufferWidth: $frameBufferWidth)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(
+          DiagnosticsProperty('type', 'RemoteFrameBufferIsolateReceiveMessage'))
+      ..add(DiagnosticsProperty('update', update))
+      ..add(DiagnosticsProperty('frameBufferHeight', frameBufferHeight))
+      ..add(DiagnosticsProperty('frameBufferWidth', frameBufferWidth));
   }
 
   @override
@@ -247,13 +317,16 @@ class _$_RemoteFrameBufferIsolateReceiveMessage
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_RemoteFrameBufferIsolateReceiveMessage &&
-            const DeepCollectionEquality()
-                .equals(other.frameBuffer, frameBuffer));
+            (identical(other.update, update) || other.update == update) &&
+            (identical(other.frameBufferHeight, frameBufferHeight) ||
+                other.frameBufferHeight == frameBufferHeight) &&
+            (identical(other.frameBufferWidth, frameBufferWidth) ||
+                other.frameBufferWidth == frameBufferWidth));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(frameBuffer));
+  int get hashCode =>
+      Object.hash(runtimeType, update, frameBufferHeight, frameBufferWidth);
 
   @JsonKey(ignore: true)
   @override
@@ -267,11 +340,17 @@ class _$_RemoteFrameBufferIsolateReceiveMessage
 abstract class _RemoteFrameBufferIsolateReceiveMessage
     implements RemoteFrameBufferIsolateReceiveMessage {
   const factory _RemoteFrameBufferIsolateReceiveMessage(
-          {required final Iterable<Iterable<int>> frameBuffer}) =
+          {required final RemoteFrameBufferClientUpdate update,
+          required final int frameBufferHeight,
+          required final int frameBufferWidth}) =
       _$_RemoteFrameBufferIsolateReceiveMessage;
 
   @override
-  Iterable<Iterable<int>> get frameBuffer;
+  RemoteFrameBufferClientUpdate get update;
+  @override
+  int get frameBufferHeight;
+  @override
+  int get frameBufferWidth;
   @override
   @JsonKey(ignore: true)
   _$$_RemoteFrameBufferIsolateReceiveMessageCopyWith<
