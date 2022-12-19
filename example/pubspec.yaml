@@ -1,4 +1,4 @@
-name: flutter_vnc_example
+name: flutter_rfb_example
 description: A new Flutter project.
 publish_to: "none"
 version: 1.0.0+1
@@ -10,8 +10,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter:
     sdk: flutter
-  flutter_vnc:
-    path: ../flutter_vnc
+  flutter_rfb:
+    path: ../
 
 dev_dependencies:
   flutter_lints: ^2.0.0

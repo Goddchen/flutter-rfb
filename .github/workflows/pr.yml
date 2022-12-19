@@ -1,8 +1,6 @@
-name: main workflow
+name: PR workflow
 on:
-  push:
-    branches:
-      - main
+  - pull_request
 jobs:
   flutter-rfb-analyze:
     runs-on: ubuntu-22.04

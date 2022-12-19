@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_vnc/flutter_vnc.dart';
+import 'package:flutter_rfb/flutter_rfb.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
   Widget build(final BuildContext context) => MaterialApp(
         home: Scaffold(
           appBar: AppBar(
-            title: const Text('Flutter VNC Example'),
+            title: const Text('Flutter RFB Example'),
           ),
           body: Center(
             child: InteractiveViewer(
