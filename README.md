@@ -1,6 +1,6 @@
 # flutter_rfb
 
-A VNC / Remote Framebuffer (RFC 6143) client.
+A VNC / Remote Framebuffer / RFC 6143 client purely written in Dart/Flutter.
 
 [![](https://img.shields.io/pub/v/flutter_rfb)](https://pub.dev/packages/flutter_rfb)
 [![](https://github.com/Goddchen/flutter-rfb/actions/workflows/main.yml/badge.svg)](https://github.com/Goddchen/flutter-rfb/)
