@@ -6,6 +6,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'remote_frame_buffer_isolate_messages.freezed.dart';
 
+/// A message that providers a received client update to the caller.
 @freezed
 class RemoteFrameBufferIsolateReceiveMessage
     with _$RemoteFrameBufferIsolateReceiveMessage {
@@ -17,6 +18,8 @@ class RemoteFrameBufferIsolateReceiveMessage
   }) = _RemoteFrameBufferIsolateReceiveMessage;
 }
 
+/// A message that indicates that the client wants to issue a new update
+/// request.
 @freezed
 class RemoteFrameBufferIsolateRequestUpdateMessage
     with _$RemoteFrameBufferIsolateRequestUpdateMessage {
@@ -24,10 +27,15 @@ class RemoteFrameBufferIsolateRequestUpdateMessage
       _RemoteFrameBufferIsolateRequestUpdateMessage;
 }
 
+/// A message that is sent to the isolate to indicate initial config.
 @freezed
 class RemoteFrameBufferIsolateSendMessage
     with _$RemoteFrameBufferIsolateSendMessage {
   factory RemoteFrameBufferIsolateSendMessage({
+    required final String hostName,
+    required final int port,
+
+    /// The [SendPort] used for communicating with the caller.
     required final SendPort sendPort,
   }) = _RemoteFrameBufferIsolateSendMessage;
 }

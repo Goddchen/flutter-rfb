@@ -8,6 +8,10 @@ import 'package:flutter/material.dart' hide Image;
 import 'package:flutter_rfb/src/remote_frame_buffer_isolate_messages.dart';
 import 'package:fpdart/fpdart.dart' hide State;
 
+/// The isolate entry point for running the RFB client in the background.
+///
+/// [sendMessage] contains the [SendPort] for communicating with the caller.
+/// It also contains the hostname and port of the server.
 Future<void> _startRemoteFrameBufferClient(
   final RemoteFrameBufferIsolateSendMessage sendMessage,
 ) async {
@@ -34,12 +38,28 @@ Future<void> _startRemoteFrameBufferClient(
       client.requestUpdate();
     }
   });
-  await client.connect(hostname: '127.0.0.1');
+  await client.connect(
+    hostname: sendMessage.hostName,
+    port: sendMessage.port,
+  );
   unawaited(client.startReadLoop());
 }
 
+/// This widget displays the framebuffer associated with the RFB session.
+/// On creation, it tries to establish a connection with the remote server
+/// in an isolate. On success, it runs the read loop in that isolate.
 class RemoteFrameBufferWidget extends StatefulWidget {
-  const RemoteFrameBufferWidget({super.key});
+  final String _hostName;
+  final int _port;
+
+  /// Immediately tries to establish a connection to a remote server at
+  /// [hostName]:[port].
+  const RemoteFrameBufferWidget({
+    super.key,
+    required final String hostName,
+    final int port = 5900,
+  })  : _hostName = hostName,
+        _port = port;
 
   @override
   State<RemoteFrameBufferWidget> createState() =>
@@ -96,6 +116,7 @@ class RemoteFrameBufferWidgetState extends State<RemoteFrameBufferWidget> {
     unawaited(_initAsync());
   }
 
+  /// Initializes logic that requires to be run asynchronous.
   Future<void> _initAsync() async {
     final ReceivePort receivePort = ReceivePort();
     _streamSubscription = some(
@@ -162,10 +183,6 @@ class RemoteFrameBufferWidgetState extends State<RemoteFrameBufferWidget> {
                     );
                   },
                 );
-                // _isolate.match(
-                //   () {},
-                //   (final Isolate isolate) => isolate.kill(),
-                // );
               },
             ),
           );
@@ -175,11 +192,16 @@ class RemoteFrameBufferWidgetState extends State<RemoteFrameBufferWidget> {
     _isolate = some(
       await Isolate.spawn(
         _startRemoteFrameBufferClient,
-        RemoteFrameBufferIsolateSendMessage(sendPort: receivePort.sendPort),
+        RemoteFrameBufferIsolateSendMessage(
+          hostName: widget._hostName,
+          port: widget._port,
+          sendPort: receivePort.sendPort,
+        ),
       ),
     );
   }
 
+  /// Updates [frameBuffer] with the given [rectangle]s.
   @visibleForTesting
   static TaskEither<Object, void> updateFrameBuffer({
     required final ByteData frameBuffer,
