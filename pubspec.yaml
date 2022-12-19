@@ -1,20 +1,19 @@
-name: flutter_vnc
-description: A new Flutter package project.
+name: flutter_rfb
+description: A VNC / Remote Framebuffer (RFC 6143) client
 version: 0.0.1
 homepage: https://github.com/Goddchen/flutter-vnc
-publish_to: none
 
 environment:
   sdk: ">=2.18.6 <3.0.0"
   flutter: ">=1.17.0"
 
 dependencies:
-  dart_rfb:
-    git:
-      path: dart-rfb/
-      ref: main
-      url: https://github.com/Goddchen/dart-rfb
-    # path: ../../dart-rfb/dart-rfb
+  dart_rfb: ^0.0.2
+  # git:
+  #   path: dart-rfb/
+  #   ref: main
+  #   url: https://github.com/Goddchen/dart-rfb
+  # path: ../../dart-rfb/dart-rfb
   flutter:
     sdk: flutter
   fpdart: ^0.4.0

@@ -2,11 +2,11 @@ import 'dart:ui';
 
 import 'package:dart_rfb/dart_rfb.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_rfb/src/remote_frame_buffer_widget.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_vnc/src/vnc_widget.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'vnc_widget_test.freezed.dart';
+part 'remote_frame_buffer_widget_test.freezed.dart';
 
 @freezed
 class UpdateFrameBufferVariant with _$UpdateFrameBufferVariant {

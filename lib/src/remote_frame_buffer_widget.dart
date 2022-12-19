@@ -5,10 +5,10 @@ import 'dart:ui';
 import 'package:dart_rfb/dart_rfb.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide Image;
-import 'package:flutter_vnc/src/remote_frame_buffer_isolate_messages.dart';
+import 'package:flutter_rfb/src/remote_frame_buffer_isolate_messages.dart';
 import 'package:fpdart/fpdart.dart' hide State;
 
-Future<void> _startVncClient(
+Future<void> _startRemoteFrameBufferClient(
   final RemoteFrameBufferIsolateSendMessage sendMessage,
 ) async {
   final RemoteFrameBufferClient client = RemoteFrameBufferClient();
@@ -34,8 +34,8 @@ Future<void> _startVncClient(
       client.requestUpdate();
     }
   });
-  await client.connect();
-  unawaited(client.start());
+  await client.connect(hostname: '127.0.0.1');
+  unawaited(client.startReadLoop());
 }
 
 class RemoteFrameBufferWidget extends StatefulWidget {
@@ -174,7 +174,7 @@ class RemoteFrameBufferWidgetState extends State<RemoteFrameBufferWidget> {
     );
     _isolate = some(
       await Isolate.spawn(
-        _startVncClient,
+        _startRemoteFrameBufferClient,
         RemoteFrameBufferIsolateSendMessage(sendPort: receivePort.sendPort),
       ),
     );
