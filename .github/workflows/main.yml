@@ -1,0 +1,64 @@
+name: main workflow
+on:
+  push:
+    branches:
+      - main
+jobs:
+  flutter-vnc-analyze:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.3.10"
+      - working-directory: flutter-vnc/
+        run: flutter pub get
+      - working-directory: flutter-vnc/
+        run: flutter analyze --fatal-infos --fatal-warnings
+  flutter-vnc-format:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.3.10"
+      - working-directory: flutter-vnc/
+        run: flutter format --output none --set-exit-if-changed .\lib\ .\test\
+  flutter-vnc-test:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.3.10"
+      - working-directory: flutter-vnc/
+        run: flutter test
+  example-analyze:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.3.10"
+      - working-directory: example/
+        run: flutter pub get
+      - working-directory: example/
+        run: flutter analyze --fatal-infos --fatal-warnings
+  example-format:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.3.10"
+      - working-directory: example/
+        run: flutter format --output none --set-exit-if-changed .\lib\ .\test\
+  example-test:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.3.10"
+      - working-directory: example/
+        run: flutter test
