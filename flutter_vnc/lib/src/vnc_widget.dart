@@ -12,6 +12,7 @@ Future<void> _startVncClient(
   final RemoteFrameBufferIsolateSendMessage sendMessage,
 ) async {
   final RemoteFrameBufferClient client = RemoteFrameBufferClient();
+  final ReceivePort receivePort = ReceivePort();
   client.updateStream.listen(
     (final RemoteFrameBufferClientUpdate update) {
       sendMessage.sendPort.send(
@@ -22,11 +23,17 @@ Future<void> _startVncClient(
           frameBufferWidth: client.config
               .map((final Config config) => config.frameBufferWidth)
               .getOrElse(() => 0),
+          sendPort: receivePort.sendPort,
           update: update,
         ),
       );
     },
   );
+  receivePort.listen((final Object? message) {
+    if (message is RemoteFrameBufferIsolateRequestUpdateMessage) {
+      client.requestUpdate();
+    }
+  });
   await client.connect();
   unawaited(client.start());
 }
@@ -46,6 +53,7 @@ class RemoteFrameBufferWidgetState extends State<RemoteFrameBufferWidget> {
   Option<ByteData> _frameBuffer = none();
   Option<Isolate> _isolate = none();
   Option<Image> _image = none();
+  Option<SendPort> _isolateSendPort = none();
 
   @override
   Widget build(final BuildContext context) => _frameBuffer
@@ -102,6 +110,7 @@ class RemoteFrameBufferWidgetState extends State<RemoteFrameBufferWidget> {
         (final RemoteFrameBufferIsolateReceiveMessage message) {
           // ignore: avoid_print
           print('Received new update message');
+          _isolateSendPort = some(message.sendPort);
           if (_frameBuffer.isNone()) {
             _frameBuffer = some(
               ByteData(
@@ -134,16 +143,24 @@ class RemoteFrameBufferWidgetState extends State<RemoteFrameBufferWidget> {
                   frameBuffer.buffer.asUint8List(),
                   message.frameBufferWidth,
                   message.frameBufferHeight,
-                  PixelFormat.rgba8888,
-                  (final Image result) => setState(
-                    () {
-                      _image.match(
-                        () {},
-                        (final Image image) => image.dispose(),
-                      );
-                      _image = some(result);
-                    },
-                  ),
+                  PixelFormat.bgra8888,
+                  (final Image result) {
+                    setState(
+                      () {
+                        _image.match(
+                          () {},
+                          (final Image image) => image.dispose(),
+                        );
+                        _image = some(result);
+                      },
+                    );
+                    _isolateSendPort.match(
+                      () {},
+                      (final SendPort sendPort) => sendPort.send(
+                        const RemoteFrameBufferIsolateRequestUpdateMessage(),
+                      ),
+                    );
+                  },
                 );
                 // _isolate.match(
                 //   () {},

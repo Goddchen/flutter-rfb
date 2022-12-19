@@ -15,6 +15,311 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
+mixin _$RemoteFrameBufferIsolateReceiveMessage {
+  int get frameBufferHeight => throw _privateConstructorUsedError;
+  int get frameBufferWidth => throw _privateConstructorUsedError;
+  SendPort get sendPort => throw _privateConstructorUsedError;
+  RemoteFrameBufferClientUpdate get update =>
+      throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $RemoteFrameBufferIsolateReceiveMessageCopyWith<
+          RemoteFrameBufferIsolateReceiveMessage>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RemoteFrameBufferIsolateReceiveMessageCopyWith<$Res> {
+  factory $RemoteFrameBufferIsolateReceiveMessageCopyWith(
+          RemoteFrameBufferIsolateReceiveMessage value,
+          $Res Function(RemoteFrameBufferIsolateReceiveMessage) then) =
+      _$RemoteFrameBufferIsolateReceiveMessageCopyWithImpl<$Res,
+          RemoteFrameBufferIsolateReceiveMessage>;
+  @useResult
+  $Res call(
+      {int frameBufferHeight,
+      int frameBufferWidth,
+      SendPort sendPort,
+      RemoteFrameBufferClientUpdate update});
+
+  $RemoteFrameBufferClientUpdateCopyWith<$Res> get update;
+}
+
+/// @nodoc
+class _$RemoteFrameBufferIsolateReceiveMessageCopyWithImpl<$Res,
+        $Val extends RemoteFrameBufferIsolateReceiveMessage>
+    implements $RemoteFrameBufferIsolateReceiveMessageCopyWith<$Res> {
+  _$RemoteFrameBufferIsolateReceiveMessageCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? frameBufferHeight = null,
+    Object? frameBufferWidth = null,
+    Object? sendPort = null,
+    Object? update = null,
+  }) {
+    return _then(_value.copyWith(
+      frameBufferHeight: null == frameBufferHeight
+          ? _value.frameBufferHeight
+          : frameBufferHeight // ignore: cast_nullable_to_non_nullable
+              as int,
+      frameBufferWidth: null == frameBufferWidth
+          ? _value.frameBufferWidth
+          : frameBufferWidth // ignore: cast_nullable_to_non_nullable
+              as int,
+      sendPort: null == sendPort
+          ? _value.sendPort
+          : sendPort // ignore: cast_nullable_to_non_nullable
+              as SendPort,
+      update: null == update
+          ? _value.update
+          : update // ignore: cast_nullable_to_non_nullable
+              as RemoteFrameBufferClientUpdate,
+    ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $RemoteFrameBufferClientUpdateCopyWith<$Res> get update {
+    return $RemoteFrameBufferClientUpdateCopyWith<$Res>(_value.update, (value) {
+      return _then(_value.copyWith(update: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$_RemoteFrameBufferIsolateReceiveMessageCopyWith<$Res>
+    implements $RemoteFrameBufferIsolateReceiveMessageCopyWith<$Res> {
+  factory _$$_RemoteFrameBufferIsolateReceiveMessageCopyWith(
+          _$_RemoteFrameBufferIsolateReceiveMessage value,
+          $Res Function(_$_RemoteFrameBufferIsolateReceiveMessage) then) =
+      __$$_RemoteFrameBufferIsolateReceiveMessageCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {int frameBufferHeight,
+      int frameBufferWidth,
+      SendPort sendPort,
+      RemoteFrameBufferClientUpdate update});
+
+  @override
+  $RemoteFrameBufferClientUpdateCopyWith<$Res> get update;
+}
+
+/// @nodoc
+class __$$_RemoteFrameBufferIsolateReceiveMessageCopyWithImpl<$Res>
+    extends _$RemoteFrameBufferIsolateReceiveMessageCopyWithImpl<$Res,
+        _$_RemoteFrameBufferIsolateReceiveMessage>
+    implements _$$_RemoteFrameBufferIsolateReceiveMessageCopyWith<$Res> {
+  __$$_RemoteFrameBufferIsolateReceiveMessageCopyWithImpl(
+      _$_RemoteFrameBufferIsolateReceiveMessage _value,
+      $Res Function(_$_RemoteFrameBufferIsolateReceiveMessage) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? frameBufferHeight = null,
+    Object? frameBufferWidth = null,
+    Object? sendPort = null,
+    Object? update = null,
+  }) {
+    return _then(_$_RemoteFrameBufferIsolateReceiveMessage(
+      frameBufferHeight: null == frameBufferHeight
+          ? _value.frameBufferHeight
+          : frameBufferHeight // ignore: cast_nullable_to_non_nullable
+              as int,
+      frameBufferWidth: null == frameBufferWidth
+          ? _value.frameBufferWidth
+          : frameBufferWidth // ignore: cast_nullable_to_non_nullable
+              as int,
+      sendPort: null == sendPort
+          ? _value.sendPort
+          : sendPort // ignore: cast_nullable_to_non_nullable
+              as SendPort,
+      update: null == update
+          ? _value.update
+          : update // ignore: cast_nullable_to_non_nullable
+              as RemoteFrameBufferClientUpdate,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_RemoteFrameBufferIsolateReceiveMessage
+    with DiagnosticableTreeMixin
+    implements _RemoteFrameBufferIsolateReceiveMessage {
+  const _$_RemoteFrameBufferIsolateReceiveMessage(
+      {required this.frameBufferHeight,
+      required this.frameBufferWidth,
+      required this.sendPort,
+      required this.update});
+
+  @override
+  final int frameBufferHeight;
+  @override
+  final int frameBufferWidth;
+  @override
+  final SendPort sendPort;
+  @override
+  final RemoteFrameBufferClientUpdate update;
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'RemoteFrameBufferIsolateReceiveMessage(frameBufferHeight: $frameBufferHeight, frameBufferWidth: $frameBufferWidth, sendPort: $sendPort, update: $update)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(
+          DiagnosticsProperty('type', 'RemoteFrameBufferIsolateReceiveMessage'))
+      ..add(DiagnosticsProperty('frameBufferHeight', frameBufferHeight))
+      ..add(DiagnosticsProperty('frameBufferWidth', frameBufferWidth))
+      ..add(DiagnosticsProperty('sendPort', sendPort))
+      ..add(DiagnosticsProperty('update', update));
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_RemoteFrameBufferIsolateReceiveMessage &&
+            (identical(other.frameBufferHeight, frameBufferHeight) ||
+                other.frameBufferHeight == frameBufferHeight) &&
+            (identical(other.frameBufferWidth, frameBufferWidth) ||
+                other.frameBufferWidth == frameBufferWidth) &&
+            (identical(other.sendPort, sendPort) ||
+                other.sendPort == sendPort) &&
+            (identical(other.update, update) || other.update == update));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, frameBufferHeight, frameBufferWidth, sendPort, update);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_RemoteFrameBufferIsolateReceiveMessageCopyWith<
+          _$_RemoteFrameBufferIsolateReceiveMessage>
+      get copyWith => __$$_RemoteFrameBufferIsolateReceiveMessageCopyWithImpl<
+          _$_RemoteFrameBufferIsolateReceiveMessage>(this, _$identity);
+}
+
+abstract class _RemoteFrameBufferIsolateReceiveMessage
+    implements RemoteFrameBufferIsolateReceiveMessage {
+  const factory _RemoteFrameBufferIsolateReceiveMessage(
+          {required final int frameBufferHeight,
+          required final int frameBufferWidth,
+          required final SendPort sendPort,
+          required final RemoteFrameBufferClientUpdate update}) =
+      _$_RemoteFrameBufferIsolateReceiveMessage;
+
+  @override
+  int get frameBufferHeight;
+  @override
+  int get frameBufferWidth;
+  @override
+  SendPort get sendPort;
+  @override
+  RemoteFrameBufferClientUpdate get update;
+  @override
+  @JsonKey(ignore: true)
+  _$$_RemoteFrameBufferIsolateReceiveMessageCopyWith<
+          _$_RemoteFrameBufferIsolateReceiveMessage>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+mixin _$RemoteFrameBufferIsolateRequestUpdateMessage {}
+
+/// @nodoc
+abstract class $RemoteFrameBufferIsolateRequestUpdateMessageCopyWith<$Res> {
+  factory $RemoteFrameBufferIsolateRequestUpdateMessageCopyWith(
+          RemoteFrameBufferIsolateRequestUpdateMessage value,
+          $Res Function(RemoteFrameBufferIsolateRequestUpdateMessage) then) =
+      _$RemoteFrameBufferIsolateRequestUpdateMessageCopyWithImpl<$Res,
+          RemoteFrameBufferIsolateRequestUpdateMessage>;
+}
+
+/// @nodoc
+class _$RemoteFrameBufferIsolateRequestUpdateMessageCopyWithImpl<$Res,
+        $Val extends RemoteFrameBufferIsolateRequestUpdateMessage>
+    implements $RemoteFrameBufferIsolateRequestUpdateMessageCopyWith<$Res> {
+  _$RemoteFrameBufferIsolateRequestUpdateMessageCopyWithImpl(
+      this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+}
+
+/// @nodoc
+abstract class _$$_RemoteFrameBufferIsolateRequestUpdateMessageCopyWith<$Res> {
+  factory _$$_RemoteFrameBufferIsolateRequestUpdateMessageCopyWith(
+          _$_RemoteFrameBufferIsolateRequestUpdateMessage value,
+          $Res Function(_$_RemoteFrameBufferIsolateRequestUpdateMessage) then) =
+      __$$_RemoteFrameBufferIsolateRequestUpdateMessageCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$_RemoteFrameBufferIsolateRequestUpdateMessageCopyWithImpl<$Res>
+    extends _$RemoteFrameBufferIsolateRequestUpdateMessageCopyWithImpl<$Res,
+        _$_RemoteFrameBufferIsolateRequestUpdateMessage>
+    implements _$$_RemoteFrameBufferIsolateRequestUpdateMessageCopyWith<$Res> {
+  __$$_RemoteFrameBufferIsolateRequestUpdateMessageCopyWithImpl(
+      _$_RemoteFrameBufferIsolateRequestUpdateMessage _value,
+      $Res Function(_$_RemoteFrameBufferIsolateRequestUpdateMessage) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$_RemoteFrameBufferIsolateRequestUpdateMessage
+    with DiagnosticableTreeMixin
+    implements _RemoteFrameBufferIsolateRequestUpdateMessage {
+  const _$_RemoteFrameBufferIsolateRequestUpdateMessage();
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'RemoteFrameBufferIsolateRequestUpdateMessage()';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty(
+        'type', 'RemoteFrameBufferIsolateRequestUpdateMessage'));
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_RemoteFrameBufferIsolateRequestUpdateMessage);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+}
+
+abstract class _RemoteFrameBufferIsolateRequestUpdateMessage
+    implements RemoteFrameBufferIsolateRequestUpdateMessage {
+  const factory _RemoteFrameBufferIsolateRequestUpdateMessage() =
+      _$_RemoteFrameBufferIsolateRequestUpdateMessage;
+}
+
+/// @nodoc
 mixin _$RemoteFrameBufferIsolateSendMessage {
   SendPort get sendPort => throw _privateConstructorUsedError;
 
@@ -152,208 +457,5 @@ abstract class _RemoteFrameBufferIsolateSendMessage
   @JsonKey(ignore: true)
   _$$_RemoteFrameBufferIsolateSendMessageCopyWith<
           _$_RemoteFrameBufferIsolateSendMessage>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-mixin _$RemoteFrameBufferIsolateReceiveMessage {
-  RemoteFrameBufferClientUpdate get update =>
-      throw _privateConstructorUsedError;
-  int get frameBufferHeight => throw _privateConstructorUsedError;
-  int get frameBufferWidth => throw _privateConstructorUsedError;
-
-  @JsonKey(ignore: true)
-  $RemoteFrameBufferIsolateReceiveMessageCopyWith<
-          RemoteFrameBufferIsolateReceiveMessage>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $RemoteFrameBufferIsolateReceiveMessageCopyWith<$Res> {
-  factory $RemoteFrameBufferIsolateReceiveMessageCopyWith(
-          RemoteFrameBufferIsolateReceiveMessage value,
-          $Res Function(RemoteFrameBufferIsolateReceiveMessage) then) =
-      _$RemoteFrameBufferIsolateReceiveMessageCopyWithImpl<$Res,
-          RemoteFrameBufferIsolateReceiveMessage>;
-  @useResult
-  $Res call(
-      {RemoteFrameBufferClientUpdate update,
-      int frameBufferHeight,
-      int frameBufferWidth});
-
-  $RemoteFrameBufferClientUpdateCopyWith<$Res> get update;
-}
-
-/// @nodoc
-class _$RemoteFrameBufferIsolateReceiveMessageCopyWithImpl<$Res,
-        $Val extends RemoteFrameBufferIsolateReceiveMessage>
-    implements $RemoteFrameBufferIsolateReceiveMessageCopyWith<$Res> {
-  _$RemoteFrameBufferIsolateReceiveMessageCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? update = null,
-    Object? frameBufferHeight = null,
-    Object? frameBufferWidth = null,
-  }) {
-    return _then(_value.copyWith(
-      update: null == update
-          ? _value.update
-          : update // ignore: cast_nullable_to_non_nullable
-              as RemoteFrameBufferClientUpdate,
-      frameBufferHeight: null == frameBufferHeight
-          ? _value.frameBufferHeight
-          : frameBufferHeight // ignore: cast_nullable_to_non_nullable
-              as int,
-      frameBufferWidth: null == frameBufferWidth
-          ? _value.frameBufferWidth
-          : frameBufferWidth // ignore: cast_nullable_to_non_nullable
-              as int,
-    ) as $Val);
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $RemoteFrameBufferClientUpdateCopyWith<$Res> get update {
-    return $RemoteFrameBufferClientUpdateCopyWith<$Res>(_value.update, (value) {
-      return _then(_value.copyWith(update: value) as $Val);
-    });
-  }
-}
-
-/// @nodoc
-abstract class _$$_RemoteFrameBufferIsolateReceiveMessageCopyWith<$Res>
-    implements $RemoteFrameBufferIsolateReceiveMessageCopyWith<$Res> {
-  factory _$$_RemoteFrameBufferIsolateReceiveMessageCopyWith(
-          _$_RemoteFrameBufferIsolateReceiveMessage value,
-          $Res Function(_$_RemoteFrameBufferIsolateReceiveMessage) then) =
-      __$$_RemoteFrameBufferIsolateReceiveMessageCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {RemoteFrameBufferClientUpdate update,
-      int frameBufferHeight,
-      int frameBufferWidth});
-
-  @override
-  $RemoteFrameBufferClientUpdateCopyWith<$Res> get update;
-}
-
-/// @nodoc
-class __$$_RemoteFrameBufferIsolateReceiveMessageCopyWithImpl<$Res>
-    extends _$RemoteFrameBufferIsolateReceiveMessageCopyWithImpl<$Res,
-        _$_RemoteFrameBufferIsolateReceiveMessage>
-    implements _$$_RemoteFrameBufferIsolateReceiveMessageCopyWith<$Res> {
-  __$$_RemoteFrameBufferIsolateReceiveMessageCopyWithImpl(
-      _$_RemoteFrameBufferIsolateReceiveMessage _value,
-      $Res Function(_$_RemoteFrameBufferIsolateReceiveMessage) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? update = null,
-    Object? frameBufferHeight = null,
-    Object? frameBufferWidth = null,
-  }) {
-    return _then(_$_RemoteFrameBufferIsolateReceiveMessage(
-      update: null == update
-          ? _value.update
-          : update // ignore: cast_nullable_to_non_nullable
-              as RemoteFrameBufferClientUpdate,
-      frameBufferHeight: null == frameBufferHeight
-          ? _value.frameBufferHeight
-          : frameBufferHeight // ignore: cast_nullable_to_non_nullable
-              as int,
-      frameBufferWidth: null == frameBufferWidth
-          ? _value.frameBufferWidth
-          : frameBufferWidth // ignore: cast_nullable_to_non_nullable
-              as int,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$_RemoteFrameBufferIsolateReceiveMessage
-    with DiagnosticableTreeMixin
-    implements _RemoteFrameBufferIsolateReceiveMessage {
-  const _$_RemoteFrameBufferIsolateReceiveMessage(
-      {required this.update,
-      required this.frameBufferHeight,
-      required this.frameBufferWidth});
-
-  @override
-  final RemoteFrameBufferClientUpdate update;
-  @override
-  final int frameBufferHeight;
-  @override
-  final int frameBufferWidth;
-
-  @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'RemoteFrameBufferIsolateReceiveMessage(update: $update, frameBufferHeight: $frameBufferHeight, frameBufferWidth: $frameBufferWidth)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(
-          DiagnosticsProperty('type', 'RemoteFrameBufferIsolateReceiveMessage'))
-      ..add(DiagnosticsProperty('update', update))
-      ..add(DiagnosticsProperty('frameBufferHeight', frameBufferHeight))
-      ..add(DiagnosticsProperty('frameBufferWidth', frameBufferWidth));
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$_RemoteFrameBufferIsolateReceiveMessage &&
-            (identical(other.update, update) || other.update == update) &&
-            (identical(other.frameBufferHeight, frameBufferHeight) ||
-                other.frameBufferHeight == frameBufferHeight) &&
-            (identical(other.frameBufferWidth, frameBufferWidth) ||
-                other.frameBufferWidth == frameBufferWidth));
-  }
-
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, update, frameBufferHeight, frameBufferWidth);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$_RemoteFrameBufferIsolateReceiveMessageCopyWith<
-          _$_RemoteFrameBufferIsolateReceiveMessage>
-      get copyWith => __$$_RemoteFrameBufferIsolateReceiveMessageCopyWithImpl<
-          _$_RemoteFrameBufferIsolateReceiveMessage>(this, _$identity);
-}
-
-abstract class _RemoteFrameBufferIsolateReceiveMessage
-    implements RemoteFrameBufferIsolateReceiveMessage {
-  const factory _RemoteFrameBufferIsolateReceiveMessage(
-          {required final RemoteFrameBufferClientUpdate update,
-          required final int frameBufferHeight,
-          required final int frameBufferWidth}) =
-      _$_RemoteFrameBufferIsolateReceiveMessage;
-
-  @override
-  RemoteFrameBufferClientUpdate get update;
-  @override
-  int get frameBufferHeight;
-  @override
-  int get frameBufferWidth;
-  @override
-  @JsonKey(ignore: true)
-  _$$_RemoteFrameBufferIsolateReceiveMessageCopyWith<
-          _$_RemoteFrameBufferIsolateReceiveMessage>
       get copyWith => throw _privateConstructorUsedError;
 }
