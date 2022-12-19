@@ -11,9 +11,9 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: "3.3.10"
-      - working-directory: flutter-vnc/
+      - working-directory: flutter_vnc/
         run: flutter pub get
-      - working-directory: flutter-vnc/
+      - working-directory: flutter_vnc/
         run: flutter analyze --fatal-infos --fatal-warnings
   flutter-vnc-format:
     runs-on: ubuntu-22.04
@@ -22,7 +22,7 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: "3.3.10"
-      - working-directory: flutter-vnc/
+      - working-directory: flutter_vnc/
         run: flutter format --output none --set-exit-if-changed .\lib\ .\test\
   flutter-vnc-test:
     runs-on: ubuntu-22.04
@@ -31,7 +31,7 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: "3.3.10"
-      - working-directory: flutter-vnc/
+      - working-directory: flutter_vnc/
         run: flutter test
   example-analyze:
     runs-on: ubuntu-22.04
