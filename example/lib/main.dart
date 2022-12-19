@@ -16,9 +16,9 @@ class MyApp extends StatelessWidget {
           ),
           body: Center(
             child: InteractiveViewer(
-              // maxScale: 100,
+              constrained: true,
+              maxScale: 10,
               // minScale: 0.1,
-              constrained: false,
               child: const RemoteFrameBufferWidget(),
             ),
           ),

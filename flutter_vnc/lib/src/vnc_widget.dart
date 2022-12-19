@@ -48,7 +48,19 @@ class RemoteFrameBufferWidgetState extends State<RemoteFrameBufferWidget> {
   Option<Image> _image = none();
 
   @override
-  Widget build(final BuildContext context) => _image.match(
+  Widget build(final BuildContext context) => _frameBuffer
+      .flatMap(
+        (final ByteData frameBuffer) => frameBuffer.buffer
+                .asUint8List(
+                  frameBuffer.offsetInBytes,
+                  frameBuffer.lengthInBytes,
+                )
+                .where((final int byte) => byte != 0)
+                .isNotEmpty
+            ? _image
+            : none<Image>(),
+      )
+      .match(
         () => const Center(child: CircularProgressIndicator()),
         (final Image image) => RawImage(image: image),
       );
@@ -119,10 +131,7 @@ class RemoteFrameBufferWidgetState extends State<RemoteFrameBufferWidget> {
                   );
                 }
                 decodeImageFromPixels(
-                  frameBuffer.buffer.asUint8List(
-                    frameBuffer.offsetInBytes,
-                    frameBuffer.lengthInBytes,
-                  ),
+                  frameBuffer.buffer.asUint8List(),
                   message.frameBufferWidth,
                   message.frameBufferHeight,
                   PixelFormat.rgba8888,
@@ -167,9 +176,9 @@ class RemoteFrameBufferWidgetState extends State<RemoteFrameBufferWidget> {
               final int frameBufferX = rectangle.x + x;
               final int frameBufferY = rectangle.y + y;
               final int pixelBytes =
-                  rectangle.byteData.getUint32(y * rectangle.width + x * 4);
+                  rectangle.byteData.getUint32((y * rectangle.width + x) * 4);
               frameBuffer.setUint32(
-                (frameBufferY * frameBufferSize.width + frameBufferX * 4)
+                ((frameBufferY * frameBufferSize.width + frameBufferX) * 4)
                     .toInt(),
                 pixelBytes,
               );
