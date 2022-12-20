@@ -2,6 +2,7 @@ import 'dart:isolate';
 
 import 'package:dart_rfb/dart_rfb.dart';
 import 'package:flutter/foundation.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'remote_frame_buffer_isolate_messages.freezed.dart';
@@ -33,6 +34,7 @@ class RemoteFrameBufferIsolateSendMessage
     with _$RemoteFrameBufferIsolateSendMessage {
   factory RemoteFrameBufferIsolateSendMessage({
     required final String hostName,
+    required final Option<String> password,
     required final int port,
 
     /// The [SendPort] used for communicating with the caller.

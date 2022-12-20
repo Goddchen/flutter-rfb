@@ -1,7 +1,20 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rfb/flutter_rfb.dart';
+import 'package:logging/logging.dart';
 
 void main() {
+  Logger.root
+    ..level = Level.ALL
+    ..onRecord.listen(
+      (final LogRecord logRecord) {
+        if (kDebugMode) {
+          print(
+            '${logRecord.level} ${logRecord.loggerName}: ${logRecord.message}',
+          );
+        }
+      },
+    );
   runApp(const MyApp());
 }
 
@@ -18,9 +31,9 @@ class MyApp extends StatelessWidget {
             child: InteractiveViewer(
               constrained: true,
               maxScale: 10,
-              // minScale: 0.1,
-              child: const RemoteFrameBufferWidget(
+              child: RemoteFrameBufferWidget(
                 hostName: '127.0.0.1',
+                password: 'password',
               ),
             ),
           ),

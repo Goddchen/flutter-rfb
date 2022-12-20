@@ -1,3 +1,8 @@
 ## 0.0.1
 
-* TODO: Describe initial release.
+- Initial release
+
+## 0.1.0
+
+- Use dart_rfb 0.2.0
+- Support for password authentication

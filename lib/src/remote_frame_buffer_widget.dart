@@ -7,6 +7,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide Image;
 import 'package:flutter_rfb/src/remote_frame_buffer_isolate_messages.dart';
 import 'package:fpdart/fpdart.dart' hide State;
+import 'package:logging/logging.dart';
+import 'package:stream_transform/stream_transform.dart';
+
+final Logger _logger = Logger('RemoteFrameBufferWidget');
 
 /// The isolate entry point for running the RFB client in the background.
 ///
@@ -40,6 +44,7 @@ Future<void> _startRemoteFrameBufferClient(
   });
   await client.connect(
     hostname: sendMessage.hostName,
+    password: sendMessage.password.toNullable(),
     port: sendMessage.port,
   );
   unawaited(client.startReadLoop());
@@ -50,15 +55,18 @@ Future<void> _startRemoteFrameBufferClient(
 /// in an isolate. On success, it runs the read loop in that isolate.
 class RemoteFrameBufferWidget extends StatefulWidget {
   final String _hostName;
+  final Option<String> _password;
   final int _port;
 
   /// Immediately tries to establish a connection to a remote server at
-  /// [hostName]:[port].
-  const RemoteFrameBufferWidget({
+  /// [hostName]:[port]; optionally using [password].
+  RemoteFrameBufferWidget({
     super.key,
     required final String hostName,
+    final String? password,
     final int port = 5900,
   })  : _hostName = hostName,
+        _password = optionOf(password),
         _port = port;
 
   @override
@@ -120,17 +128,11 @@ class RemoteFrameBufferWidgetState extends State<RemoteFrameBufferWidget> {
   Future<void> _initAsync() async {
     final ReceivePort receivePort = ReceivePort();
     _streamSubscription = some(
-      receivePort
-          .where(
-            (final Object? event) =>
-                event != null &&
-                event is RemoteFrameBufferIsolateReceiveMessage,
-          )
-          .cast<RemoteFrameBufferIsolateReceiveMessage>()
-          .listen(
+      receivePort.whereType<RemoteFrameBufferIsolateReceiveMessage>().listen(
         (final RemoteFrameBufferIsolateReceiveMessage message) {
-          // ignore: avoid_print
-          print('Received new update message');
+          _logger.finer(
+            'Received new update message with ${message.update.rectangles.length} rectangles',
+          );
           _isolateSendPort = some(message.sendPort);
           if (_frameBuffer.isNone()) {
             _frameBuffer = some(
@@ -189,11 +191,13 @@ class RemoteFrameBufferWidgetState extends State<RemoteFrameBufferWidget> {
         },
       ),
     );
+    _logger.info('Spawning new isolate for RFB client');
     _isolate = some(
       await Isolate.spawn(
         _startRemoteFrameBufferClient,
         RemoteFrameBufferIsolateSendMessage(
           hostName: widget._hostName,
+          password: widget._password,
           port: widget._port,
           sendPort: receivePort.sendPort,
         ),
