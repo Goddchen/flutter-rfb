@@ -8,6 +8,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.9.0"
+  binary:
+    dependency: transitive
+    description:
+      name: binary
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.0.1"
   boolean_selector:
     dependency: transitive
     description:
@@ -53,9 +60,9 @@ packages:
   dart_rfb:
     dependency: transitive
     description:
-      name: dart_rfb
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../../dart-rfb"
+      relative: true
+    source: path
     version: "0.2.0"
   fake_async:
     dependency: transitive
@@ -123,6 +130,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.0"
+  matan:
+    dependency: transitive
+    description:
+      name: matan
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
   matcher:
     dependency: transitive
     description:

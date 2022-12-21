@@ -9,12 +9,13 @@ environment:
   flutter: ">=1.17.0"
 
 dependencies:
-  dart_rfb: ^0.2.0
-  # git:
-  #   path: dart-rfb/
-  #   ref: main
-  #   url: https://github.com/Goddchen/dart-rfb
-  # path: ../../dart-rfb/dart-rfb
+  # dart_rfb: ^0.2.0
+  dart_rfb:
+    # git:
+    #   path: dart-rfb/
+    #   ref: main
+    #   url: https://github.com/Goddchen/dart-rfb
+    path: ../dart-rfb
   flutter:
     sdk: flutter
   fpdart: ^0.4.0

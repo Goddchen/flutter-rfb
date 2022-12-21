@@ -5,7 +5,7 @@ import 'package:logging/logging.dart';
 
 void main() {
   Logger.root
-    ..level = Level.ALL
+    ..level = Level.FINE
     ..onRecord.listen(
       (final LogRecord logRecord) {
         if (kDebugMode) {

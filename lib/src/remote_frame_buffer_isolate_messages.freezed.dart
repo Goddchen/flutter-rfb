@@ -528,3 +528,356 @@ abstract class _RemoteFrameBufferIsolateSendMessage
           _$_RemoteFrameBufferIsolateSendMessage>
       get copyWith => throw _privateConstructorUsedError;
 }
+
+/// @nodoc
+mixin _$RemoteFrameBufferIsolatePointerEventMessage {
+  bool get button1Down => throw _privateConstructorUsedError;
+  bool get button2Down => throw _privateConstructorUsedError;
+  bool get button3Down => throw _privateConstructorUsedError;
+  bool get button4Down => throw _privateConstructorUsedError;
+  bool get button5Down => throw _privateConstructorUsedError;
+  bool get button6Down => throw _privateConstructorUsedError;
+  bool get button7Down => throw _privateConstructorUsedError;
+  bool get button8Down => throw _privateConstructorUsedError;
+  int get x => throw _privateConstructorUsedError;
+  int get y => throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $RemoteFrameBufferIsolatePointerEventMessageCopyWith<
+          RemoteFrameBufferIsolatePointerEventMessage>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RemoteFrameBufferIsolatePointerEventMessageCopyWith<$Res> {
+  factory $RemoteFrameBufferIsolatePointerEventMessageCopyWith(
+          RemoteFrameBufferIsolatePointerEventMessage value,
+          $Res Function(RemoteFrameBufferIsolatePointerEventMessage) then) =
+      _$RemoteFrameBufferIsolatePointerEventMessageCopyWithImpl<$Res,
+          RemoteFrameBufferIsolatePointerEventMessage>;
+  @useResult
+  $Res call(
+      {bool button1Down,
+      bool button2Down,
+      bool button3Down,
+      bool button4Down,
+      bool button5Down,
+      bool button6Down,
+      bool button7Down,
+      bool button8Down,
+      int x,
+      int y});
+}
+
+/// @nodoc
+class _$RemoteFrameBufferIsolatePointerEventMessageCopyWithImpl<$Res,
+        $Val extends RemoteFrameBufferIsolatePointerEventMessage>
+    implements $RemoteFrameBufferIsolatePointerEventMessageCopyWith<$Res> {
+  _$RemoteFrameBufferIsolatePointerEventMessageCopyWithImpl(
+      this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? button1Down = null,
+    Object? button2Down = null,
+    Object? button3Down = null,
+    Object? button4Down = null,
+    Object? button5Down = null,
+    Object? button6Down = null,
+    Object? button7Down = null,
+    Object? button8Down = null,
+    Object? x = null,
+    Object? y = null,
+  }) {
+    return _then(_value.copyWith(
+      button1Down: null == button1Down
+          ? _value.button1Down
+          : button1Down // ignore: cast_nullable_to_non_nullable
+              as bool,
+      button2Down: null == button2Down
+          ? _value.button2Down
+          : button2Down // ignore: cast_nullable_to_non_nullable
+              as bool,
+      button3Down: null == button3Down
+          ? _value.button3Down
+          : button3Down // ignore: cast_nullable_to_non_nullable
+              as bool,
+      button4Down: null == button4Down
+          ? _value.button4Down
+          : button4Down // ignore: cast_nullable_to_non_nullable
+              as bool,
+      button5Down: null == button5Down
+          ? _value.button5Down
+          : button5Down // ignore: cast_nullable_to_non_nullable
+              as bool,
+      button6Down: null == button6Down
+          ? _value.button6Down
+          : button6Down // ignore: cast_nullable_to_non_nullable
+              as bool,
+      button7Down: null == button7Down
+          ? _value.button7Down
+          : button7Down // ignore: cast_nullable_to_non_nullable
+              as bool,
+      button8Down: null == button8Down
+          ? _value.button8Down
+          : button8Down // ignore: cast_nullable_to_non_nullable
+              as bool,
+      x: null == x
+          ? _value.x
+          : x // ignore: cast_nullable_to_non_nullable
+              as int,
+      y: null == y
+          ? _value.y
+          : y // ignore: cast_nullable_to_non_nullable
+              as int,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_RemoteFrameBufferIsolatePointerEventMessageCopyWith<$Res>
+    implements $RemoteFrameBufferIsolatePointerEventMessageCopyWith<$Res> {
+  factory _$$_RemoteFrameBufferIsolatePointerEventMessageCopyWith(
+          _$_RemoteFrameBufferIsolatePointerEventMessage value,
+          $Res Function(_$_RemoteFrameBufferIsolatePointerEventMessage) then) =
+      __$$_RemoteFrameBufferIsolatePointerEventMessageCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {bool button1Down,
+      bool button2Down,
+      bool button3Down,
+      bool button4Down,
+      bool button5Down,
+      bool button6Down,
+      bool button7Down,
+      bool button8Down,
+      int x,
+      int y});
+}
+
+/// @nodoc
+class __$$_RemoteFrameBufferIsolatePointerEventMessageCopyWithImpl<$Res>
+    extends _$RemoteFrameBufferIsolatePointerEventMessageCopyWithImpl<$Res,
+        _$_RemoteFrameBufferIsolatePointerEventMessage>
+    implements _$$_RemoteFrameBufferIsolatePointerEventMessageCopyWith<$Res> {
+  __$$_RemoteFrameBufferIsolatePointerEventMessageCopyWithImpl(
+      _$_RemoteFrameBufferIsolatePointerEventMessage _value,
+      $Res Function(_$_RemoteFrameBufferIsolatePointerEventMessage) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? button1Down = null,
+    Object? button2Down = null,
+    Object? button3Down = null,
+    Object? button4Down = null,
+    Object? button5Down = null,
+    Object? button6Down = null,
+    Object? button7Down = null,
+    Object? button8Down = null,
+    Object? x = null,
+    Object? y = null,
+  }) {
+    return _then(_$_RemoteFrameBufferIsolatePointerEventMessage(
+      button1Down: null == button1Down
+          ? _value.button1Down
+          : button1Down // ignore: cast_nullable_to_non_nullable
+              as bool,
+      button2Down: null == button2Down
+          ? _value.button2Down
+          : button2Down // ignore: cast_nullable_to_non_nullable
+              as bool,
+      button3Down: null == button3Down
+          ? _value.button3Down
+          : button3Down // ignore: cast_nullable_to_non_nullable
+              as bool,
+      button4Down: null == button4Down
+          ? _value.button4Down
+          : button4Down // ignore: cast_nullable_to_non_nullable
+              as bool,
+      button5Down: null == button5Down
+          ? _value.button5Down
+          : button5Down // ignore: cast_nullable_to_non_nullable
+              as bool,
+      button6Down: null == button6Down
+          ? _value.button6Down
+          : button6Down // ignore: cast_nullable_to_non_nullable
+              as bool,
+      button7Down: null == button7Down
+          ? _value.button7Down
+          : button7Down // ignore: cast_nullable_to_non_nullable
+              as bool,
+      button8Down: null == button8Down
+          ? _value.button8Down
+          : button8Down // ignore: cast_nullable_to_non_nullable
+              as bool,
+      x: null == x
+          ? _value.x
+          : x // ignore: cast_nullable_to_non_nullable
+              as int,
+      y: null == y
+          ? _value.y
+          : y // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_RemoteFrameBufferIsolatePointerEventMessage
+    with DiagnosticableTreeMixin
+    implements _RemoteFrameBufferIsolatePointerEventMessage {
+  const _$_RemoteFrameBufferIsolatePointerEventMessage(
+      {required this.button1Down,
+      required this.button2Down,
+      required this.button3Down,
+      required this.button4Down,
+      required this.button5Down,
+      required this.button6Down,
+      required this.button7Down,
+      required this.button8Down,
+      required this.x,
+      required this.y});
+
+  @override
+  final bool button1Down;
+  @override
+  final bool button2Down;
+  @override
+  final bool button3Down;
+  @override
+  final bool button4Down;
+  @override
+  final bool button5Down;
+  @override
+  final bool button6Down;
+  @override
+  final bool button7Down;
+  @override
+  final bool button8Down;
+  @override
+  final int x;
+  @override
+  final int y;
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'RemoteFrameBufferIsolatePointerEventMessage(button1Down: $button1Down, button2Down: $button2Down, button3Down: $button3Down, button4Down: $button4Down, button5Down: $button5Down, button6Down: $button6Down, button7Down: $button7Down, button8Down: $button8Down, x: $x, y: $y)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty(
+          'type', 'RemoteFrameBufferIsolatePointerEventMessage'))
+      ..add(DiagnosticsProperty('button1Down', button1Down))
+      ..add(DiagnosticsProperty('button2Down', button2Down))
+      ..add(DiagnosticsProperty('button3Down', button3Down))
+      ..add(DiagnosticsProperty('button4Down', button4Down))
+      ..add(DiagnosticsProperty('button5Down', button5Down))
+      ..add(DiagnosticsProperty('button6Down', button6Down))
+      ..add(DiagnosticsProperty('button7Down', button7Down))
+      ..add(DiagnosticsProperty('button8Down', button8Down))
+      ..add(DiagnosticsProperty('x', x))
+      ..add(DiagnosticsProperty('y', y));
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_RemoteFrameBufferIsolatePointerEventMessage &&
+            (identical(other.button1Down, button1Down) ||
+                other.button1Down == button1Down) &&
+            (identical(other.button2Down, button2Down) ||
+                other.button2Down == button2Down) &&
+            (identical(other.button3Down, button3Down) ||
+                other.button3Down == button3Down) &&
+            (identical(other.button4Down, button4Down) ||
+                other.button4Down == button4Down) &&
+            (identical(other.button5Down, button5Down) ||
+                other.button5Down == button5Down) &&
+            (identical(other.button6Down, button6Down) ||
+                other.button6Down == button6Down) &&
+            (identical(other.button7Down, button7Down) ||
+                other.button7Down == button7Down) &&
+            (identical(other.button8Down, button8Down) ||
+                other.button8Down == button8Down) &&
+            (identical(other.x, x) || other.x == x) &&
+            (identical(other.y, y) || other.y == y));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      button1Down,
+      button2Down,
+      button3Down,
+      button4Down,
+      button5Down,
+      button6Down,
+      button7Down,
+      button8Down,
+      x,
+      y);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_RemoteFrameBufferIsolatePointerEventMessageCopyWith<
+          _$_RemoteFrameBufferIsolatePointerEventMessage>
+      get copyWith =>
+          __$$_RemoteFrameBufferIsolatePointerEventMessageCopyWithImpl<
+              _$_RemoteFrameBufferIsolatePointerEventMessage>(this, _$identity);
+}
+
+abstract class _RemoteFrameBufferIsolatePointerEventMessage
+    implements RemoteFrameBufferIsolatePointerEventMessage {
+  const factory _RemoteFrameBufferIsolatePointerEventMessage(
+      {required final bool button1Down,
+      required final bool button2Down,
+      required final bool button3Down,
+      required final bool button4Down,
+      required final bool button5Down,
+      required final bool button6Down,
+      required final bool button7Down,
+      required final bool button8Down,
+      required final int x,
+      required final int y}) = _$_RemoteFrameBufferIsolatePointerEventMessage;
+
+  @override
+  bool get button1Down;
+  @override
+  bool get button2Down;
+  @override
+  bool get button3Down;
+  @override
+  bool get button4Down;
+  @override
+  bool get button5Down;
+  @override
+  bool get button6Down;
+  @override
+  bool get button7Down;
+  @override
+  bool get button8Down;
+  @override
+  int get x;
+  @override
+  int get y;
+  @override
+  @JsonKey(ignore: true)
+  _$$_RemoteFrameBufferIsolatePointerEventMessageCopyWith<
+          _$_RemoteFrameBufferIsolatePointerEventMessage>
+      get copyWith => throw _privateConstructorUsedError;
+}

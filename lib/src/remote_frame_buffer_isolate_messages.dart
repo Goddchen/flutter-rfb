@@ -41,3 +41,21 @@ class RemoteFrameBufferIsolateSendMessage
     required final SendPort sendPort,
   }) = _RemoteFrameBufferIsolateSendMessage;
 }
+
+/// A message that represents the state of all pointer buttons and coordinates.
+@freezed
+class RemoteFrameBufferIsolatePointerEventMessage
+    with _$RemoteFrameBufferIsolatePointerEventMessage {
+  const factory RemoteFrameBufferIsolatePointerEventMessage({
+    required final bool button1Down,
+    required final bool button2Down,
+    required final bool button3Down,
+    required final bool button4Down,
+    required final bool button5Down,
+    required final bool button6Down,
+    required final bool button7Down,
+    required final bool button8Down,
+    required final int x,
+    required final int y,
+  }) = _RemoteFrameBufferIsolatePointerEventMessage;
+}
