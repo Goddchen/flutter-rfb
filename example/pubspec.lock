@@ -60,10 +60,10 @@ packages:
   dart_rfb:
     dependency: transitive
     description:
-      path: "../../dart-rfb"
-      relative: true
-    source: path
-    version: "0.2.0"
+      name: dart_rfb
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.1"
   fake_async:
     dependency: transitive
     description:
@@ -89,7 +89,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "0.1.0"
+    version: "0.2.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
