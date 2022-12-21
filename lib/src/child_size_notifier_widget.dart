@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 
 /// Widget that exposes its child's size via a [ValueNotifier].
-/// 
+///
 /// Inspired by: https://stackoverflow.com/a/58004112/373138
 class SizeTrackingWidget extends StatefulWidget {
   final Widget _child;
