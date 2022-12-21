@@ -5,6 +5,7 @@ import 'dart:ui';
 import 'package:dart_rfb/dart_rfb.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide Image;
+import 'package:flutter_rfb/src/child_size_notifier_widget.dart';
 import 'package:flutter_rfb/src/remote_frame_buffer_isolate_messages.dart';
 import 'package:fpdart/fpdart.dart' hide State;
 import 'package:logging/logging.dart';
@@ -19,6 +20,17 @@ final Logger _logger = Logger('RemoteFrameBufferWidget');
 Future<void> _startRemoteFrameBufferClient(
   final RemoteFrameBufferIsolateSendMessage sendMessage,
 ) async {
+  Logger.root
+    ..level = Level.FINE
+    ..onRecord.listen(
+      (final LogRecord logRecord) {
+        if (kDebugMode) {
+          print(
+            '${logRecord.level} ${logRecord.loggerName}: ${logRecord.message}',
+          );
+        }
+      },
+    );
   final RemoteFrameBufferClient client = RemoteFrameBufferClient();
   final ReceivePort receivePort = ReceivePort();
   client.updateStream.listen(
@@ -40,6 +52,21 @@ Future<void> _startRemoteFrameBufferClient(
   receivePort.listen((final Object? message) {
     if (message is RemoteFrameBufferIsolateRequestUpdateMessage) {
       client.requestUpdate();
+    } else if (message is RemoteFrameBufferIsolatePointerEventMessage) {
+      client.sendPointerEvent(
+        pointerEvent: RemoteFrameBufferClientPointerEvent(
+          button1Down: message.button1Down,
+          button2Down: message.button2Down,
+          button3Down: message.button3Down,
+          button4Down: message.button4Down,
+          button5Down: message.button5Down,
+          button6Down: message.button6Down,
+          button7Down: message.button7Down,
+          button8Down: message.button8Down,
+          x: message.x,
+          y: message.y,
+        ),
+      );
     }
   });
   await client.connect(
@@ -59,7 +86,7 @@ class RemoteFrameBufferWidget extends StatefulWidget {
   final int _port;
 
   /// Immediately tries to establish a connection to a remote server at
-  /// [hostName]:[port]; optionally using [password].
+  /// [hostName]:[port], optionally using [password].
   RemoteFrameBufferWidget({
     super.key,
     required final String hostName,
@@ -82,6 +109,7 @@ class RemoteFrameBufferWidgetState extends State<RemoteFrameBufferWidget> {
   Option<Isolate> _isolate = none();
   Option<Image> _image = none();
   Option<SendPort> _isolateSendPort = none();
+  ValueNotifier<Size> sizeValueNotifier = ValueNotifier<Size>(Size.zero);
 
   @override
   Widget build(final BuildContext context) => _frameBuffer
@@ -98,7 +126,106 @@ class RemoteFrameBufferWidgetState extends State<RemoteFrameBufferWidget> {
       )
       .match(
         () => const Center(child: CircularProgressIndicator()),
-        (final Image image) => RawImage(image: image),
+        (final Image image) => SizeTrackingWidget(
+          sizeValueNotifier: sizeValueNotifier,
+          child: GestureDetector(
+            onSecondaryTapDown: (final TapDownDetails details) =>
+                _isolateSendPort.match(
+              () {},
+              (final SendPort sendPort) => sendPort.send(
+                RemoteFrameBufferIsolatePointerEventMessage(
+                  button1Down: false,
+                  button2Down: false,
+                  button3Down: true,
+                  button4Down: false,
+                  button5Down: false,
+                  button6Down: false,
+                  button7Down: false,
+                  button8Down: false,
+                  x: (details.localPosition.dx /
+                          sizeValueNotifier.value.width *
+                          image.width)
+                      .toInt(),
+                  y: (details.localPosition.dy /
+                          sizeValueNotifier.value.height *
+                          image.height)
+                      .toInt(),
+                ),
+              ),
+            ),
+            onSecondaryTapUp: (final TapUpDetails details) =>
+                _isolateSendPort.match(
+              () {},
+              (final SendPort sendPort) => sendPort.send(
+                RemoteFrameBufferIsolatePointerEventMessage(
+                  button1Down: false,
+                  button2Down: false,
+                  button3Down: false,
+                  button4Down: false,
+                  button5Down: false,
+                  button6Down: false,
+                  button7Down: false,
+                  button8Down: false,
+                  x: (details.localPosition.dx /
+                          sizeValueNotifier.value.width *
+                          image.width)
+                      .toInt(),
+                  y: (details.localPosition.dy /
+                          sizeValueNotifier.value.height *
+                          image.height)
+                      .toInt(),
+                ),
+              ),
+            ),
+            onTapDown: (final TapDownDetails details) => _isolateSendPort.match(
+              () {},
+              (final SendPort sendPort) => sendPort.send(
+                RemoteFrameBufferIsolatePointerEventMessage(
+                  button1Down: true,
+                  button2Down: false,
+                  button3Down: false,
+                  button4Down: false,
+                  button5Down: false,
+                  button6Down: false,
+                  button7Down: false,
+                  button8Down: false,
+                  x: (details.localPosition.dx /
+                          sizeValueNotifier.value.width *
+                          image.width)
+                      .toInt(),
+                  y: (details.localPosition.dy /
+                          sizeValueNotifier.value.height *
+                          image.height)
+                      .toInt(),
+                ),
+              ),
+            ),
+            onTapUp: (final TapUpDetails details) => _isolateSendPort.match(
+              () {},
+              (final SendPort sendPort) => sendPort.send(
+                RemoteFrameBufferIsolatePointerEventMessage(
+                  button1Down: false,
+                  button2Down: false,
+                  button3Down: false,
+                  button4Down: false,
+                  button5Down: false,
+                  button6Down: false,
+                  button7Down: false,
+                  button8Down: false,
+                  x: (details.localPosition.dx /
+                          sizeValueNotifier.value.width *
+                          image.width)
+                      .toInt(),
+                  y: (details.localPosition.dy /
+                          sizeValueNotifier.value.height *
+                          image.height)
+                      .toInt(),
+                ),
+              ),
+            ),
+            child: RawImage(image: image),
+          ),
+        ),
       );
 
   @override

@@ -6,3 +6,8 @@
 
 - Use dart_rfb 0.2.0
 - Support for password authentication
+
+## 0.2.0
+
+- Support for pointer events
+- Improved logging
