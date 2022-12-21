@@ -20,6 +20,17 @@ final Logger _logger = Logger('RemoteFrameBufferWidget');
 Future<void> _startRemoteFrameBufferClient(
   final RemoteFrameBufferIsolateSendMessage sendMessage,
 ) async {
+  Logger.root
+    ..level = Level.FINE
+    ..onRecord.listen(
+      (final LogRecord logRecord) {
+        if (kDebugMode) {
+          print(
+            '${logRecord.level} ${logRecord.loggerName}: ${logRecord.message}',
+          );
+        }
+      },
+    );
   final RemoteFrameBufferClient client = RemoteFrameBufferClient();
   final ReceivePort receivePort = ReceivePort();
   client.updateStream.listen(
