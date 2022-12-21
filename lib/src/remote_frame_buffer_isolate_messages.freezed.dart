@@ -322,6 +322,7 @@ abstract class _RemoteFrameBufferIsolateRequestUpdateMessage
 /// @nodoc
 mixin _$RemoteFrameBufferIsolateSendMessage {
   String get hostName => throw _privateConstructorUsedError;
+  Option<String> get password => throw _privateConstructorUsedError;
   int get port => throw _privateConstructorUsedError;
 
   /// The [SendPort] used for communicating with the caller.
@@ -341,7 +342,8 @@ abstract class $RemoteFrameBufferIsolateSendMessageCopyWith<$Res> {
       _$RemoteFrameBufferIsolateSendMessageCopyWithImpl<$Res,
           RemoteFrameBufferIsolateSendMessage>;
   @useResult
-  $Res call({String hostName, int port, SendPort sendPort});
+  $Res call(
+      {String hostName, Option<String> password, int port, SendPort sendPort});
 }
 
 /// @nodoc
@@ -359,6 +361,7 @@ class _$RemoteFrameBufferIsolateSendMessageCopyWithImpl<$Res,
   @override
   $Res call({
     Object? hostName = null,
+    Object? password = null,
     Object? port = null,
     Object? sendPort = null,
   }) {
@@ -367,6 +370,10 @@ class _$RemoteFrameBufferIsolateSendMessageCopyWithImpl<$Res,
           ? _value.hostName
           : hostName // ignore: cast_nullable_to_non_nullable
               as String,
+      password: null == password
+          ? _value.password
+          : password // ignore: cast_nullable_to_non_nullable
+              as Option<String>,
       port: null == port
           ? _value.port
           : port // ignore: cast_nullable_to_non_nullable
@@ -388,7 +395,8 @@ abstract class _$$_RemoteFrameBufferIsolateSendMessageCopyWith<$Res>
       __$$_RemoteFrameBufferIsolateSendMessageCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String hostName, int port, SendPort sendPort});
+  $Res call(
+      {String hostName, Option<String> password, int port, SendPort sendPort});
 }
 
 /// @nodoc
@@ -405,6 +413,7 @@ class __$$_RemoteFrameBufferIsolateSendMessageCopyWithImpl<$Res>
   @override
   $Res call({
     Object? hostName = null,
+    Object? password = null,
     Object? port = null,
     Object? sendPort = null,
   }) {
@@ -413,6 +422,10 @@ class __$$_RemoteFrameBufferIsolateSendMessageCopyWithImpl<$Res>
           ? _value.hostName
           : hostName // ignore: cast_nullable_to_non_nullable
               as String,
+      password: null == password
+          ? _value.password
+          : password // ignore: cast_nullable_to_non_nullable
+              as Option<String>,
       port: null == port
           ? _value.port
           : port // ignore: cast_nullable_to_non_nullable
@@ -431,10 +444,15 @@ class _$_RemoteFrameBufferIsolateSendMessage
     with DiagnosticableTreeMixin
     implements _RemoteFrameBufferIsolateSendMessage {
   _$_RemoteFrameBufferIsolateSendMessage(
-      {required this.hostName, required this.port, required this.sendPort});
+      {required this.hostName,
+      required this.password,
+      required this.port,
+      required this.sendPort});
 
   @override
   final String hostName;
+  @override
+  final Option<String> password;
   @override
   final int port;
 
@@ -444,7 +462,7 @@ class _$_RemoteFrameBufferIsolateSendMessage
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'RemoteFrameBufferIsolateSendMessage(hostName: $hostName, port: $port, sendPort: $sendPort)';
+    return 'RemoteFrameBufferIsolateSendMessage(hostName: $hostName, password: $password, port: $port, sendPort: $sendPort)';
   }
 
   @override
@@ -453,6 +471,7 @@ class _$_RemoteFrameBufferIsolateSendMessage
     properties
       ..add(DiagnosticsProperty('type', 'RemoteFrameBufferIsolateSendMessage'))
       ..add(DiagnosticsProperty('hostName', hostName))
+      ..add(DiagnosticsProperty('password', password))
       ..add(DiagnosticsProperty('port', port))
       ..add(DiagnosticsProperty('sendPort', sendPort));
   }
@@ -464,13 +483,16 @@ class _$_RemoteFrameBufferIsolateSendMessage
             other is _$_RemoteFrameBufferIsolateSendMessage &&
             (identical(other.hostName, hostName) ||
                 other.hostName == hostName) &&
+            (identical(other.password, password) ||
+                other.password == password) &&
             (identical(other.port, port) || other.port == port) &&
             (identical(other.sendPort, sendPort) ||
                 other.sendPort == sendPort));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, hostName, port, sendPort);
+  int get hashCode =>
+      Object.hash(runtimeType, hostName, password, port, sendPort);
 
   @JsonKey(ignore: true)
   @override
@@ -485,12 +507,15 @@ abstract class _RemoteFrameBufferIsolateSendMessage
     implements RemoteFrameBufferIsolateSendMessage {
   factory _RemoteFrameBufferIsolateSendMessage(
           {required final String hostName,
+          required final Option<String> password,
           required final int port,
           required final SendPort sendPort}) =
       _$_RemoteFrameBufferIsolateSendMessage;
 
   @override
   String get hostName;
+  @override
+  Option<String> get password;
   @override
   int get port;
   @override

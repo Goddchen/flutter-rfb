@@ -20,7 +20,7 @@ For a list of currently supported protocol features please head over to the [dar
 
 As simple as `dart pub add flutter_rfb`.
 
-Or manually add `flutter_rfb: ^0.0.1` to your `pubspec.yaml`.
+Or manually add `flutter_rfb: ^0.1.0` to your `pubspec.yaml`.
 
 ## Usage
 
@@ -38,8 +38,10 @@ class MyApp extends StatelessWidget {
             child: InteractiveViewer(
               constrained: true,
               maxScale: 10,
-              // minScale: 0.1,
-              child: const RemoteFrameBufferWidget(),
+              child: RemoteFrameBufferWidget(
+                hostName: '127.0.0.1',
+                password: 'password',
+              ),
             ),
           ),
         ),

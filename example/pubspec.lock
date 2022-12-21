@@ -43,13 +43,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.5"
+  dart_des:
+    dependency: transitive
+    description:
+      name: dart_des
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.2"
   dart_rfb:
     dependency: transitive
     description:
       name: dart_rfb
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.0.2"
+    version: "0.2.0"
   fake_async:
     dependency: transitive
     description:
@@ -75,7 +82,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "0.0.1"
+    version: "0.1.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -110,7 +117,7 @@ packages:
     source: hosted
     version: "2.0.1"
   logging:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: logging
       url: "https://pub.dartlang.org"
@@ -167,6 +174,13 @@ packages:
     dependency: transitive
     description:
       name: stream_channel
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.1.0"
+  stream_transform:
+    dependency: transitive
+    description:
+      name: stream_transform
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
