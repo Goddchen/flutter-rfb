@@ -11,3 +11,7 @@
 
 - Support for pointer events
 - Improved logging
+
+## 0.3.0
+
+- Add CopyRect encoding support

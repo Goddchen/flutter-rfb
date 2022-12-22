@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:isolate';
+import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:dart_rfb/dart_rfb.dart';
@@ -274,19 +275,61 @@ class RemoteFrameBufferWidgetState extends State<RemoteFrameBufferWidget> {
               (final ByteData frameBuffer) async {
                 for (final RemoteFrameBufferClientUpdateRectangle rectangle
                     in message.update.rectangles) {
-                  (await updateFrameBuffer(
-                    frameBuffer: frameBuffer,
-                    frameBufferSize: Size(
-                      message.frameBufferWidth.toDouble(),
-                      message.frameBufferHeight.toDouble(),
+                  await rectangle.encodingType.when(
+                    copyRect: () async {
+                      final int sourceX = rectangle.byteData.getUint16(0);
+                      final int sourceY = rectangle.byteData.getUint16(2);
+                      final BytesBuilder bytesBuilder = BytesBuilder();
+                      for (int row = 0; row < rectangle.height; row++) {
+                        for (int column = 0;
+                            column < rectangle.width;
+                            column++) {
+                          bytesBuilder.add(
+                            frameBuffer.buffer.asUint8List(
+                              ((sourceY + row) * message.frameBufferWidth +
+                                      sourceX +
+                                      column) *
+                                  4,
+                              4,
+                            ),
+                          );
+                        }
+                      }
+                      return (await updateFrameBuffer(
+                        frameBuffer: frameBuffer,
+                        frameBufferSize: Size(
+                          message.frameBufferWidth.toDouble(),
+                          message.frameBufferHeight.toDouble(),
+                        ),
+                        rectangle: rectangle.copyWith(
+                          encodingType:
+                              const RemoteFrameBufferEncodingType.raw(),
+                          byteData:
+                              ByteData.sublistView(bytesBuilder.toBytes()),
+                        ),
+                      ).run())
+                          .match(
+                        (final Object error) =>
+                            // ignore: avoid_print
+                            print('Error updating frame buffer: $error'),
+                        (final _) {},
+                      );
+                    },
+                    raw: () async => (await updateFrameBuffer(
+                      frameBuffer: frameBuffer,
+                      frameBufferSize: Size(
+                        message.frameBufferWidth.toDouble(),
+                        message.frameBufferHeight.toDouble(),
+                      ),
+                      rectangle: rectangle,
+                    ).run())
+                        .match(
+                      (final Object error) =>
+                          // ignore: avoid_print
+                          print('Error updating frame buffer: $error'),
+                      (final _) {},
                     ),
-                    rectangle: rectangle,
-                  ).run())
-                      .match(
-                    (final Object error) =>
-                        // ignore: avoid_print
-                        print('Error updating frame buffer: $error'),
-                    (final _) {},
+                    unsupported: (final ByteData bytes) async {},
                   );
                 }
                 decodeImageFromPixels(
