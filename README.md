@@ -20,7 +20,7 @@ For a list of currently supported protocol features please head over to the [dar
 
 As simple as `dart pub add flutter_rfb`.
 
-Or manually add `flutter_rfb: ^0.2.0` to your `pubspec.yaml`.
+Or manually add `flutter_rfb: ^<latest-version>` to your `pubspec.yaml`.
 
 ## Usage
 
