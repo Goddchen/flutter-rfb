@@ -82,6 +82,7 @@ Future<void> _startRemoteFrameBufferClient(
 /// On creation, it tries to establish a connection with the remote server
 /// in an isolate. On success, it runs the read loop in that isolate.
 class RemoteFrameBufferWidget extends StatefulWidget {
+  final Option<Widget> _connectingWidget;
   final String _hostName;
   final Option<String> _password;
   final int _port;
@@ -90,10 +91,12 @@ class RemoteFrameBufferWidget extends StatefulWidget {
   /// [hostName]:[port], optionally using [password].
   RemoteFrameBufferWidget({
     super.key,
+    final Widget? connectingWidget,
     required final String hostName,
     final String? password,
     final int port = 5900,
-  })  : _hostName = hostName,
+  })  : _connectingWidget = optionOf(connectingWidget),
+        _hostName = hostName,
         _password = optionOf(password),
         _port = port;
 
@@ -126,7 +129,9 @@ class RemoteFrameBufferWidgetState extends State<RemoteFrameBufferWidget> {
             : none<Image>(),
       )
       .match(
-        () => const Center(child: CircularProgressIndicator()),
+        () => widget._connectingWidget.getOrElse(
+          () => const Center(child: CircularProgressIndicator()),
+        ),
         (final Image image) => SizeTrackingWidget(
           sizeValueNotifier: sizeValueNotifier,
           child: GestureDetector(
@@ -239,6 +244,10 @@ class RemoteFrameBufferWidgetState extends State<RemoteFrameBufferWidget> {
       ) =>
           unawaited(subscription.cancel()),
     );
+    _image.match(
+      () {},
+      (final Image image) => image.dispose(),
+    );
     _isolate.match(
       () {},
       (final Isolate isolate) => isolate.kill(),
@@ -338,21 +347,23 @@ class RemoteFrameBufferWidgetState extends State<RemoteFrameBufferWidget> {
                   message.frameBufferHeight,
                   PixelFormat.bgra8888,
                   (final Image result) {
-                    setState(
-                      () {
-                        _image.match(
-                          () {},
-                          (final Image image) => image.dispose(),
-                        );
-                        _image = some(result);
-                      },
-                    );
-                    _isolateSendPort.match(
-                      () {},
-                      (final SendPort sendPort) => sendPort.send(
-                        const RemoteFrameBufferIsolateRequestUpdateMessage(),
-                      ),
-                    );
+                    if (mounted) {
+                      setState(
+                        () {
+                          _image.match(
+                            () {},
+                            (final Image image) => image.dispose(),
+                          );
+                          _image = some(result);
+                        },
+                      );
+                      _isolateSendPort.match(
+                        () {},
+                        (final SendPort sendPort) => sendPort.send(
+                          const RemoteFrameBufferIsolateRequestUpdateMessage(),
+                        ),
+                      );
+                    }
                   },
                 );
               },
