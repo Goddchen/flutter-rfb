@@ -40,6 +40,13 @@ class MyApp extends StatelessWidget {
               maxScale: 10,
               child: RemoteFrameBufferWidget(
                 hostName: '127.0.0.1',
+                onError: (final Object error) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Error: $error'),
+                    ),
+                  );
+                },
                 password: 'password',
               ),
             ),

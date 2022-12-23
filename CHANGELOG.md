@@ -31,3 +31,7 @@
 
 - Update `dart_rfb` to version 0.6.0 (clipboard support)
 - Add clipboard support
+
+## 0.6.1
+
+- Just a formatting fix
