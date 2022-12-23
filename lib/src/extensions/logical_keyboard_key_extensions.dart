@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 /// Useful extensions for the [LogicalKeyboardKey] class.
 extension LogicalKeyboardKeyExtensions on LogicalKeyboardKey {
   /// Convert this logical key to the corresponding X window system key code.
-  /// 
+  ///
   /// See: https://www.rfc-editor.org/rfc/rfc6143.html#section-7.5.4
   int asXWindowSystemKey() {
     if (this == LogicalKeyboardKey.backspace) {
