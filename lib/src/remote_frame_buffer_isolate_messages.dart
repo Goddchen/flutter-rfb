@@ -7,18 +7,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'remote_frame_buffer_isolate_messages.freezed.dart';
 
-/// A message that providers a received client update to the caller.
-@freezed
-class RemoteFrameBufferIsolateReceiveMessage
-    with _$RemoteFrameBufferIsolateReceiveMessage {
-  const factory RemoteFrameBufferIsolateReceiveMessage.update({
-    required final int frameBufferHeight,
-    required final int frameBufferWidth,
-    required final SendPort sendPort,
-    required final RemoteFrameBufferClientUpdate update,
-  }) = RemoteFrameBufferIsolateReceiveMessageUpdate;
-}
-
 /// The initialization message sent when creating the isolate.
 @freezed
 class RemoteFrameBufferIsolateInitMessage
@@ -33,10 +21,31 @@ class RemoteFrameBufferIsolateInitMessage
   }) = _RemoteFrameBufferIsolateInitMessage;
 }
 
+/// A message that providers a received client update to the caller.
+@freezed
+class RemoteFrameBufferIsolateReceiveMessage
+    with _$RemoteFrameBufferIsolateReceiveMessage {
+  const factory RemoteFrameBufferIsolateReceiveMessage.clipBoardUpdate({
+    required final String text,
+  }) = RemoteFrameBufferIsolateReceiveMessageClipBoardUpdate;
+
+  const factory RemoteFrameBufferIsolateReceiveMessage.frameBufferUpdate({
+    required final int frameBufferHeight,
+    required final int frameBufferWidth,
+    required final SendPort sendPort,
+    required final RemoteFrameBufferClientUpdate update,
+  }) = RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdate;
+}
+
 /// A message that is sent to the isolate.
 @freezed
 class RemoteFrameBufferIsolateSendMessage
     with _$RemoteFrameBufferIsolateSendMessage {
+  /// A message that is sent when the client's clipboard is updated.
+  const factory RemoteFrameBufferIsolateSendMessage.clipBoardUpdate({
+    required final String text,
+  }) = RemoteFrameBufferIsolateSendMessageClipBoardUpdate;
+
   /// A message that is sent when a key is pressed.
   const factory RemoteFrameBufferIsolateSendMessage.keyEvent({
     required final bool down,
@@ -59,6 +68,6 @@ class RemoteFrameBufferIsolateSendMessage
 
   /// A message that indicates that the client wants to issue a new update
   /// request.
-  const factory RemoteFrameBufferIsolateSendMessage.updateRequest() =
+  const factory RemoteFrameBufferIsolateSendMessage.frameBufferUpdateRequest() =
       RemoteFrameBufferIsolateSendMessageUpdateRequest;
 }
