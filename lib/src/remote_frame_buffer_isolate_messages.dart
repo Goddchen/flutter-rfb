@@ -11,42 +11,34 @@ part 'remote_frame_buffer_isolate_messages.freezed.dart';
 @freezed
 class RemoteFrameBufferIsolateReceiveMessage
     with _$RemoteFrameBufferIsolateReceiveMessage {
-  const factory RemoteFrameBufferIsolateReceiveMessage({
+  const factory RemoteFrameBufferIsolateReceiveMessage.update({
     required final int frameBufferHeight,
     required final int frameBufferWidth,
     required final SendPort sendPort,
     required final RemoteFrameBufferClientUpdate update,
-  }) = _RemoteFrameBufferIsolateReceiveMessage;
+  }) = RemoteFrameBufferIsolateReceiveMessageUpdate;
 }
 
-/// A message that indicates that the client wants to issue a new update
-/// request.
+/// The initialization message sent when creating the isolate.
 @freezed
-class RemoteFrameBufferIsolateRequestUpdateMessage
-    with _$RemoteFrameBufferIsolateRequestUpdateMessage {
-  const factory RemoteFrameBufferIsolateRequestUpdateMessage() =
-      _RemoteFrameBufferIsolateRequestUpdateMessage;
-}
-
-/// A message that is sent to the isolate to indicate initial config.
-@freezed
-class RemoteFrameBufferIsolateSendMessage
-    with _$RemoteFrameBufferIsolateSendMessage {
-  factory RemoteFrameBufferIsolateSendMessage({
+class RemoteFrameBufferIsolateInitMessage
+    with _$RemoteFrameBufferIsolateInitMessage {
+  const factory RemoteFrameBufferIsolateInitMessage({
     required final String hostName,
     required final Option<String> password,
     required final int port,
 
     /// The [SendPort] used for communicating with the caller.
     required final SendPort sendPort,
-  }) = _RemoteFrameBufferIsolateSendMessage;
+  }) = _RemoteFrameBufferIsolateInitMessage;
 }
 
-/// A message that represents the state of all pointer buttons and coordinates.
+/// A message that is sent to the isolate.
 @freezed
-class RemoteFrameBufferIsolatePointerEventMessage
-    with _$RemoteFrameBufferIsolatePointerEventMessage {
-  const factory RemoteFrameBufferIsolatePointerEventMessage({
+class RemoteFrameBufferIsolateSendMessage
+    with _$RemoteFrameBufferIsolateSendMessage {
+  /// A message that represents the state of all pointer buttons and coordinates.
+  const factory RemoteFrameBufferIsolateSendMessage.pointerEvent({
     required final bool button1Down,
     required final bool button2Down,
     required final bool button3Down,
@@ -57,5 +49,10 @@ class RemoteFrameBufferIsolatePointerEventMessage
     required final bool button8Down,
     required final int x,
     required final int y,
-  }) = _RemoteFrameBufferIsolatePointerEventMessage;
+  }) = RemoteFrameBufferIsolateSendMessagePointerEvent;
+
+  /// A message that indicates that the client wants to issue a new update
+  /// request.
+  const factory RemoteFrameBufferIsolateSendMessage.updateRequest() =
+      RemoteFrameBufferIsolateSendMessageUpdateRequest;
 }

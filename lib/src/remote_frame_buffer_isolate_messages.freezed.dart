@@ -21,6 +21,48 @@ mixin _$RemoteFrameBufferIsolateReceiveMessage {
   SendPort get sendPort => throw _privateConstructorUsedError;
   RemoteFrameBufferClientUpdate get update =>
       throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(int frameBufferHeight, int frameBufferWidth,
+            SendPort sendPort, RemoteFrameBufferClientUpdate update)
+        update,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(int frameBufferHeight, int frameBufferWidth,
+            SendPort sendPort, RemoteFrameBufferClientUpdate update)?
+        update,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(int frameBufferHeight, int frameBufferWidth,
+            SendPort sendPort, RemoteFrameBufferClientUpdate update)?
+        update,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(
+            RemoteFrameBufferIsolateReceiveMessageUpdate value)
+        update,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(RemoteFrameBufferIsolateReceiveMessageUpdate value)?
+        update,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(RemoteFrameBufferIsolateReceiveMessageUpdate value)?
+        update,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $RemoteFrameBufferIsolateReceiveMessageCopyWith<
@@ -94,12 +136,12 @@ class _$RemoteFrameBufferIsolateReceiveMessageCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_RemoteFrameBufferIsolateReceiveMessageCopyWith<$Res>
+abstract class _$$RemoteFrameBufferIsolateReceiveMessageUpdateCopyWith<$Res>
     implements $RemoteFrameBufferIsolateReceiveMessageCopyWith<$Res> {
-  factory _$$_RemoteFrameBufferIsolateReceiveMessageCopyWith(
-          _$_RemoteFrameBufferIsolateReceiveMessage value,
-          $Res Function(_$_RemoteFrameBufferIsolateReceiveMessage) then) =
-      __$$_RemoteFrameBufferIsolateReceiveMessageCopyWithImpl<$Res>;
+  factory _$$RemoteFrameBufferIsolateReceiveMessageUpdateCopyWith(
+          _$RemoteFrameBufferIsolateReceiveMessageUpdate value,
+          $Res Function(_$RemoteFrameBufferIsolateReceiveMessageUpdate) then) =
+      __$$RemoteFrameBufferIsolateReceiveMessageUpdateCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -113,13 +155,13 @@ abstract class _$$_RemoteFrameBufferIsolateReceiveMessageCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_RemoteFrameBufferIsolateReceiveMessageCopyWithImpl<$Res>
+class __$$RemoteFrameBufferIsolateReceiveMessageUpdateCopyWithImpl<$Res>
     extends _$RemoteFrameBufferIsolateReceiveMessageCopyWithImpl<$Res,
-        _$_RemoteFrameBufferIsolateReceiveMessage>
-    implements _$$_RemoteFrameBufferIsolateReceiveMessageCopyWith<$Res> {
-  __$$_RemoteFrameBufferIsolateReceiveMessageCopyWithImpl(
-      _$_RemoteFrameBufferIsolateReceiveMessage _value,
-      $Res Function(_$_RemoteFrameBufferIsolateReceiveMessage) _then)
+        _$RemoteFrameBufferIsolateReceiveMessageUpdate>
+    implements _$$RemoteFrameBufferIsolateReceiveMessageUpdateCopyWith<$Res> {
+  __$$RemoteFrameBufferIsolateReceiveMessageUpdateCopyWithImpl(
+      _$RemoteFrameBufferIsolateReceiveMessageUpdate _value,
+      $Res Function(_$RemoteFrameBufferIsolateReceiveMessageUpdate) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -130,7 +172,7 @@ class __$$_RemoteFrameBufferIsolateReceiveMessageCopyWithImpl<$Res>
     Object? sendPort = null,
     Object? update = null,
   }) {
-    return _then(_$_RemoteFrameBufferIsolateReceiveMessage(
+    return _then(_$RemoteFrameBufferIsolateReceiveMessageUpdate(
       frameBufferHeight: null == frameBufferHeight
           ? _value.frameBufferHeight
           : frameBufferHeight // ignore: cast_nullable_to_non_nullable
@@ -153,10 +195,10 @@ class __$$_RemoteFrameBufferIsolateReceiveMessageCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_RemoteFrameBufferIsolateReceiveMessage
+class _$RemoteFrameBufferIsolateReceiveMessageUpdate
     with DiagnosticableTreeMixin
-    implements _RemoteFrameBufferIsolateReceiveMessage {
-  const _$_RemoteFrameBufferIsolateReceiveMessage(
+    implements RemoteFrameBufferIsolateReceiveMessageUpdate {
+  const _$RemoteFrameBufferIsolateReceiveMessageUpdate(
       {required this.frameBufferHeight,
       required this.frameBufferWidth,
       required this.sendPort,
@@ -173,15 +215,15 @@ class _$_RemoteFrameBufferIsolateReceiveMessage
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'RemoteFrameBufferIsolateReceiveMessage(frameBufferHeight: $frameBufferHeight, frameBufferWidth: $frameBufferWidth, sendPort: $sendPort, update: $update)';
+    return 'RemoteFrameBufferIsolateReceiveMessage.update(frameBufferHeight: $frameBufferHeight, frameBufferWidth: $frameBufferWidth, sendPort: $sendPort, update: $update)';
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(
-          DiagnosticsProperty('type', 'RemoteFrameBufferIsolateReceiveMessage'))
+      ..add(DiagnosticsProperty(
+          'type', 'RemoteFrameBufferIsolateReceiveMessage.update'))
       ..add(DiagnosticsProperty('frameBufferHeight', frameBufferHeight))
       ..add(DiagnosticsProperty('frameBufferWidth', frameBufferWidth))
       ..add(DiagnosticsProperty('sendPort', sendPort))
@@ -192,7 +234,7 @@ class _$_RemoteFrameBufferIsolateReceiveMessage
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_RemoteFrameBufferIsolateReceiveMessage &&
+            other is _$RemoteFrameBufferIsolateReceiveMessageUpdate &&
             (identical(other.frameBufferHeight, frameBufferHeight) ||
                 other.frameBufferHeight == frameBufferHeight) &&
             (identical(other.frameBufferWidth, frameBufferWidth) ||
@@ -209,20 +251,88 @@ class _$_RemoteFrameBufferIsolateReceiveMessage
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_RemoteFrameBufferIsolateReceiveMessageCopyWith<
-          _$_RemoteFrameBufferIsolateReceiveMessage>
-      get copyWith => __$$_RemoteFrameBufferIsolateReceiveMessageCopyWithImpl<
-          _$_RemoteFrameBufferIsolateReceiveMessage>(this, _$identity);
+  _$$RemoteFrameBufferIsolateReceiveMessageUpdateCopyWith<
+          _$RemoteFrameBufferIsolateReceiveMessageUpdate>
+      get copyWith =>
+          __$$RemoteFrameBufferIsolateReceiveMessageUpdateCopyWithImpl<
+              _$RemoteFrameBufferIsolateReceiveMessageUpdate>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(int frameBufferHeight, int frameBufferWidth,
+            SendPort sendPort, RemoteFrameBufferClientUpdate update)
+        update,
+  }) {
+    return update(frameBufferHeight, frameBufferWidth, sendPort, this.update);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(int frameBufferHeight, int frameBufferWidth,
+            SendPort sendPort, RemoteFrameBufferClientUpdate update)?
+        update,
+  }) {
+    return update?.call(
+        frameBufferHeight, frameBufferWidth, sendPort, this.update);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(int frameBufferHeight, int frameBufferWidth,
+            SendPort sendPort, RemoteFrameBufferClientUpdate update)?
+        update,
+    required TResult orElse(),
+  }) {
+    if (update != null) {
+      return update(frameBufferHeight, frameBufferWidth, sendPort, this.update);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(
+            RemoteFrameBufferIsolateReceiveMessageUpdate value)
+        update,
+  }) {
+    return update(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(RemoteFrameBufferIsolateReceiveMessageUpdate value)?
+        update,
+  }) {
+    return update?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(RemoteFrameBufferIsolateReceiveMessageUpdate value)?
+        update,
+    required TResult orElse(),
+  }) {
+    if (update != null) {
+      return update(this);
+    }
+    return orElse();
+  }
 }
 
-abstract class _RemoteFrameBufferIsolateReceiveMessage
+abstract class RemoteFrameBufferIsolateReceiveMessageUpdate
     implements RemoteFrameBufferIsolateReceiveMessage {
-  const factory _RemoteFrameBufferIsolateReceiveMessage(
+  const factory RemoteFrameBufferIsolateReceiveMessageUpdate(
           {required final int frameBufferHeight,
           required final int frameBufferWidth,
           required final SendPort sendPort,
           required final RemoteFrameBufferClientUpdate update}) =
-      _$_RemoteFrameBufferIsolateReceiveMessage;
+      _$RemoteFrameBufferIsolateReceiveMessageUpdate;
 
   @override
   int get frameBufferHeight;
@@ -234,93 +344,13 @@ abstract class _RemoteFrameBufferIsolateReceiveMessage
   RemoteFrameBufferClientUpdate get update;
   @override
   @JsonKey(ignore: true)
-  _$$_RemoteFrameBufferIsolateReceiveMessageCopyWith<
-          _$_RemoteFrameBufferIsolateReceiveMessage>
+  _$$RemoteFrameBufferIsolateReceiveMessageUpdateCopyWith<
+          _$RemoteFrameBufferIsolateReceiveMessageUpdate>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-mixin _$RemoteFrameBufferIsolateRequestUpdateMessage {}
-
-/// @nodoc
-abstract class $RemoteFrameBufferIsolateRequestUpdateMessageCopyWith<$Res> {
-  factory $RemoteFrameBufferIsolateRequestUpdateMessageCopyWith(
-          RemoteFrameBufferIsolateRequestUpdateMessage value,
-          $Res Function(RemoteFrameBufferIsolateRequestUpdateMessage) then) =
-      _$RemoteFrameBufferIsolateRequestUpdateMessageCopyWithImpl<$Res,
-          RemoteFrameBufferIsolateRequestUpdateMessage>;
-}
-
-/// @nodoc
-class _$RemoteFrameBufferIsolateRequestUpdateMessageCopyWithImpl<$Res,
-        $Val extends RemoteFrameBufferIsolateRequestUpdateMessage>
-    implements $RemoteFrameBufferIsolateRequestUpdateMessageCopyWith<$Res> {
-  _$RemoteFrameBufferIsolateRequestUpdateMessageCopyWithImpl(
-      this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-}
-
-/// @nodoc
-abstract class _$$_RemoteFrameBufferIsolateRequestUpdateMessageCopyWith<$Res> {
-  factory _$$_RemoteFrameBufferIsolateRequestUpdateMessageCopyWith(
-          _$_RemoteFrameBufferIsolateRequestUpdateMessage value,
-          $Res Function(_$_RemoteFrameBufferIsolateRequestUpdateMessage) then) =
-      __$$_RemoteFrameBufferIsolateRequestUpdateMessageCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$_RemoteFrameBufferIsolateRequestUpdateMessageCopyWithImpl<$Res>
-    extends _$RemoteFrameBufferIsolateRequestUpdateMessageCopyWithImpl<$Res,
-        _$_RemoteFrameBufferIsolateRequestUpdateMessage>
-    implements _$$_RemoteFrameBufferIsolateRequestUpdateMessageCopyWith<$Res> {
-  __$$_RemoteFrameBufferIsolateRequestUpdateMessageCopyWithImpl(
-      _$_RemoteFrameBufferIsolateRequestUpdateMessage _value,
-      $Res Function(_$_RemoteFrameBufferIsolateRequestUpdateMessage) _then)
-      : super(_value, _then);
-}
-
-/// @nodoc
-
-class _$_RemoteFrameBufferIsolateRequestUpdateMessage
-    with DiagnosticableTreeMixin
-    implements _RemoteFrameBufferIsolateRequestUpdateMessage {
-  const _$_RemoteFrameBufferIsolateRequestUpdateMessage();
-
-  @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'RemoteFrameBufferIsolateRequestUpdateMessage()';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty(
-        'type', 'RemoteFrameBufferIsolateRequestUpdateMessage'));
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$_RemoteFrameBufferIsolateRequestUpdateMessage);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-}
-
-abstract class _RemoteFrameBufferIsolateRequestUpdateMessage
-    implements RemoteFrameBufferIsolateRequestUpdateMessage {
-  const factory _RemoteFrameBufferIsolateRequestUpdateMessage() =
-      _$_RemoteFrameBufferIsolateRequestUpdateMessage;
-}
-
-/// @nodoc
-mixin _$RemoteFrameBufferIsolateSendMessage {
+mixin _$RemoteFrameBufferIsolateInitMessage {
   String get hostName => throw _privateConstructorUsedError;
   Option<String> get password => throw _privateConstructorUsedError;
   int get port => throw _privateConstructorUsedError;
@@ -329,28 +359,28 @@ mixin _$RemoteFrameBufferIsolateSendMessage {
   SendPort get sendPort => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $RemoteFrameBufferIsolateSendMessageCopyWith<
-          RemoteFrameBufferIsolateSendMessage>
+  $RemoteFrameBufferIsolateInitMessageCopyWith<
+          RemoteFrameBufferIsolateInitMessage>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $RemoteFrameBufferIsolateSendMessageCopyWith<$Res> {
-  factory $RemoteFrameBufferIsolateSendMessageCopyWith(
-          RemoteFrameBufferIsolateSendMessage value,
-          $Res Function(RemoteFrameBufferIsolateSendMessage) then) =
-      _$RemoteFrameBufferIsolateSendMessageCopyWithImpl<$Res,
-          RemoteFrameBufferIsolateSendMessage>;
+abstract class $RemoteFrameBufferIsolateInitMessageCopyWith<$Res> {
+  factory $RemoteFrameBufferIsolateInitMessageCopyWith(
+          RemoteFrameBufferIsolateInitMessage value,
+          $Res Function(RemoteFrameBufferIsolateInitMessage) then) =
+      _$RemoteFrameBufferIsolateInitMessageCopyWithImpl<$Res,
+          RemoteFrameBufferIsolateInitMessage>;
   @useResult
   $Res call(
       {String hostName, Option<String> password, int port, SendPort sendPort});
 }
 
 /// @nodoc
-class _$RemoteFrameBufferIsolateSendMessageCopyWithImpl<$Res,
-        $Val extends RemoteFrameBufferIsolateSendMessage>
-    implements $RemoteFrameBufferIsolateSendMessageCopyWith<$Res> {
-  _$RemoteFrameBufferIsolateSendMessageCopyWithImpl(this._value, this._then);
+class _$RemoteFrameBufferIsolateInitMessageCopyWithImpl<$Res,
+        $Val extends RemoteFrameBufferIsolateInitMessage>
+    implements $RemoteFrameBufferIsolateInitMessageCopyWith<$Res> {
+  _$RemoteFrameBufferIsolateInitMessageCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -387,12 +417,12 @@ class _$RemoteFrameBufferIsolateSendMessageCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_RemoteFrameBufferIsolateSendMessageCopyWith<$Res>
-    implements $RemoteFrameBufferIsolateSendMessageCopyWith<$Res> {
-  factory _$$_RemoteFrameBufferIsolateSendMessageCopyWith(
-          _$_RemoteFrameBufferIsolateSendMessage value,
-          $Res Function(_$_RemoteFrameBufferIsolateSendMessage) then) =
-      __$$_RemoteFrameBufferIsolateSendMessageCopyWithImpl<$Res>;
+abstract class _$$_RemoteFrameBufferIsolateInitMessageCopyWith<$Res>
+    implements $RemoteFrameBufferIsolateInitMessageCopyWith<$Res> {
+  factory _$$_RemoteFrameBufferIsolateInitMessageCopyWith(
+          _$_RemoteFrameBufferIsolateInitMessage value,
+          $Res Function(_$_RemoteFrameBufferIsolateInitMessage) then) =
+      __$$_RemoteFrameBufferIsolateInitMessageCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -400,13 +430,13 @@ abstract class _$$_RemoteFrameBufferIsolateSendMessageCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_RemoteFrameBufferIsolateSendMessageCopyWithImpl<$Res>
-    extends _$RemoteFrameBufferIsolateSendMessageCopyWithImpl<$Res,
-        _$_RemoteFrameBufferIsolateSendMessage>
-    implements _$$_RemoteFrameBufferIsolateSendMessageCopyWith<$Res> {
-  __$$_RemoteFrameBufferIsolateSendMessageCopyWithImpl(
-      _$_RemoteFrameBufferIsolateSendMessage _value,
-      $Res Function(_$_RemoteFrameBufferIsolateSendMessage) _then)
+class __$$_RemoteFrameBufferIsolateInitMessageCopyWithImpl<$Res>
+    extends _$RemoteFrameBufferIsolateInitMessageCopyWithImpl<$Res,
+        _$_RemoteFrameBufferIsolateInitMessage>
+    implements _$$_RemoteFrameBufferIsolateInitMessageCopyWith<$Res> {
+  __$$_RemoteFrameBufferIsolateInitMessageCopyWithImpl(
+      _$_RemoteFrameBufferIsolateInitMessage _value,
+      $Res Function(_$_RemoteFrameBufferIsolateInitMessage) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -417,7 +447,7 @@ class __$$_RemoteFrameBufferIsolateSendMessageCopyWithImpl<$Res>
     Object? port = null,
     Object? sendPort = null,
   }) {
-    return _then(_$_RemoteFrameBufferIsolateSendMessage(
+    return _then(_$_RemoteFrameBufferIsolateInitMessage(
       hostName: null == hostName
           ? _value.hostName
           : hostName // ignore: cast_nullable_to_non_nullable
@@ -440,10 +470,10 @@ class __$$_RemoteFrameBufferIsolateSendMessageCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_RemoteFrameBufferIsolateSendMessage
+class _$_RemoteFrameBufferIsolateInitMessage
     with DiagnosticableTreeMixin
-    implements _RemoteFrameBufferIsolateSendMessage {
-  _$_RemoteFrameBufferIsolateSendMessage(
+    implements _RemoteFrameBufferIsolateInitMessage {
+  const _$_RemoteFrameBufferIsolateInitMessage(
       {required this.hostName,
       required this.password,
       required this.port,
@@ -462,14 +492,14 @@ class _$_RemoteFrameBufferIsolateSendMessage
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'RemoteFrameBufferIsolateSendMessage(hostName: $hostName, password: $password, port: $port, sendPort: $sendPort)';
+    return 'RemoteFrameBufferIsolateInitMessage(hostName: $hostName, password: $password, port: $port, sendPort: $sendPort)';
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(DiagnosticsProperty('type', 'RemoteFrameBufferIsolateSendMessage'))
+      ..add(DiagnosticsProperty('type', 'RemoteFrameBufferIsolateInitMessage'))
       ..add(DiagnosticsProperty('hostName', hostName))
       ..add(DiagnosticsProperty('password', password))
       ..add(DiagnosticsProperty('port', port))
@@ -480,7 +510,7 @@ class _$_RemoteFrameBufferIsolateSendMessage
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_RemoteFrameBufferIsolateSendMessage &&
+            other is _$_RemoteFrameBufferIsolateInitMessage &&
             (identical(other.hostName, hostName) ||
                 other.hostName == hostName) &&
             (identical(other.password, password) ||
@@ -497,20 +527,20 @@ class _$_RemoteFrameBufferIsolateSendMessage
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_RemoteFrameBufferIsolateSendMessageCopyWith<
-          _$_RemoteFrameBufferIsolateSendMessage>
-      get copyWith => __$$_RemoteFrameBufferIsolateSendMessageCopyWithImpl<
-          _$_RemoteFrameBufferIsolateSendMessage>(this, _$identity);
+  _$$_RemoteFrameBufferIsolateInitMessageCopyWith<
+          _$_RemoteFrameBufferIsolateInitMessage>
+      get copyWith => __$$_RemoteFrameBufferIsolateInitMessageCopyWithImpl<
+          _$_RemoteFrameBufferIsolateInitMessage>(this, _$identity);
 }
 
-abstract class _RemoteFrameBufferIsolateSendMessage
-    implements RemoteFrameBufferIsolateSendMessage {
-  factory _RemoteFrameBufferIsolateSendMessage(
+abstract class _RemoteFrameBufferIsolateInitMessage
+    implements RemoteFrameBufferIsolateInitMessage {
+  const factory _RemoteFrameBufferIsolateInitMessage(
           {required final String hostName,
           required final Option<String> password,
           required final int port,
           required final SendPort sendPort}) =
-      _$_RemoteFrameBufferIsolateSendMessage;
+      _$_RemoteFrameBufferIsolateInitMessage;
 
   @override
   String get hostName;
@@ -524,130 +554,123 @@ abstract class _RemoteFrameBufferIsolateSendMessage
   SendPort get sendPort;
   @override
   @JsonKey(ignore: true)
-  _$$_RemoteFrameBufferIsolateSendMessageCopyWith<
-          _$_RemoteFrameBufferIsolateSendMessage>
+  _$$_RemoteFrameBufferIsolateInitMessageCopyWith<
+          _$_RemoteFrameBufferIsolateInitMessage>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-mixin _$RemoteFrameBufferIsolatePointerEventMessage {
-  bool get button1Down => throw _privateConstructorUsedError;
-  bool get button2Down => throw _privateConstructorUsedError;
-  bool get button3Down => throw _privateConstructorUsedError;
-  bool get button4Down => throw _privateConstructorUsedError;
-  bool get button5Down => throw _privateConstructorUsedError;
-  bool get button6Down => throw _privateConstructorUsedError;
-  bool get button7Down => throw _privateConstructorUsedError;
-  bool get button8Down => throw _privateConstructorUsedError;
-  int get x => throw _privateConstructorUsedError;
-  int get y => throw _privateConstructorUsedError;
-
-  @JsonKey(ignore: true)
-  $RemoteFrameBufferIsolatePointerEventMessageCopyWith<
-          RemoteFrameBufferIsolatePointerEventMessage>
-      get copyWith => throw _privateConstructorUsedError;
+mixin _$RemoteFrameBufferIsolateSendMessage {
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            bool button1Down,
+            bool button2Down,
+            bool button3Down,
+            bool button4Down,
+            bool button5Down,
+            bool button6Down,
+            bool button7Down,
+            bool button8Down,
+            int x,
+            int y)
+        pointerEvent,
+    required TResult Function() updateRequest,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+            bool button1Down,
+            bool button2Down,
+            bool button3Down,
+            bool button4Down,
+            bool button5Down,
+            bool button6Down,
+            bool button7Down,
+            bool button8Down,
+            int x,
+            int y)?
+        pointerEvent,
+    TResult? Function()? updateRequest,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(
+            bool button1Down,
+            bool button2Down,
+            bool button3Down,
+            bool button4Down,
+            bool button5Down,
+            bool button6Down,
+            bool button7Down,
+            bool button8Down,
+            int x,
+            int y)?
+        pointerEvent,
+    TResult Function()? updateRequest,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(
+            RemoteFrameBufferIsolateSendMessagePointerEvent value)
+        pointerEvent,
+    required TResult Function(
+            RemoteFrameBufferIsolateSendMessageUpdateRequest value)
+        updateRequest,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(RemoteFrameBufferIsolateSendMessagePointerEvent value)?
+        pointerEvent,
+    TResult? Function(RemoteFrameBufferIsolateSendMessageUpdateRequest value)?
+        updateRequest,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(RemoteFrameBufferIsolateSendMessagePointerEvent value)?
+        pointerEvent,
+    TResult Function(RemoteFrameBufferIsolateSendMessageUpdateRequest value)?
+        updateRequest,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $RemoteFrameBufferIsolatePointerEventMessageCopyWith<$Res> {
-  factory $RemoteFrameBufferIsolatePointerEventMessageCopyWith(
-          RemoteFrameBufferIsolatePointerEventMessage value,
-          $Res Function(RemoteFrameBufferIsolatePointerEventMessage) then) =
-      _$RemoteFrameBufferIsolatePointerEventMessageCopyWithImpl<$Res,
-          RemoteFrameBufferIsolatePointerEventMessage>;
-  @useResult
-  $Res call(
-      {bool button1Down,
-      bool button2Down,
-      bool button3Down,
-      bool button4Down,
-      bool button5Down,
-      bool button6Down,
-      bool button7Down,
-      bool button8Down,
-      int x,
-      int y});
+abstract class $RemoteFrameBufferIsolateSendMessageCopyWith<$Res> {
+  factory $RemoteFrameBufferIsolateSendMessageCopyWith(
+          RemoteFrameBufferIsolateSendMessage value,
+          $Res Function(RemoteFrameBufferIsolateSendMessage) then) =
+      _$RemoteFrameBufferIsolateSendMessageCopyWithImpl<$Res,
+          RemoteFrameBufferIsolateSendMessage>;
 }
 
 /// @nodoc
-class _$RemoteFrameBufferIsolatePointerEventMessageCopyWithImpl<$Res,
-        $Val extends RemoteFrameBufferIsolatePointerEventMessage>
-    implements $RemoteFrameBufferIsolatePointerEventMessageCopyWith<$Res> {
-  _$RemoteFrameBufferIsolatePointerEventMessageCopyWithImpl(
-      this._value, this._then);
+class _$RemoteFrameBufferIsolateSendMessageCopyWithImpl<$Res,
+        $Val extends RemoteFrameBufferIsolateSendMessage>
+    implements $RemoteFrameBufferIsolateSendMessageCopyWith<$Res> {
+  _$RemoteFrameBufferIsolateSendMessageCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? button1Down = null,
-    Object? button2Down = null,
-    Object? button3Down = null,
-    Object? button4Down = null,
-    Object? button5Down = null,
-    Object? button6Down = null,
-    Object? button7Down = null,
-    Object? button8Down = null,
-    Object? x = null,
-    Object? y = null,
-  }) {
-    return _then(_value.copyWith(
-      button1Down: null == button1Down
-          ? _value.button1Down
-          : button1Down // ignore: cast_nullable_to_non_nullable
-              as bool,
-      button2Down: null == button2Down
-          ? _value.button2Down
-          : button2Down // ignore: cast_nullable_to_non_nullable
-              as bool,
-      button3Down: null == button3Down
-          ? _value.button3Down
-          : button3Down // ignore: cast_nullable_to_non_nullable
-              as bool,
-      button4Down: null == button4Down
-          ? _value.button4Down
-          : button4Down // ignore: cast_nullable_to_non_nullable
-              as bool,
-      button5Down: null == button5Down
-          ? _value.button5Down
-          : button5Down // ignore: cast_nullable_to_non_nullable
-              as bool,
-      button6Down: null == button6Down
-          ? _value.button6Down
-          : button6Down // ignore: cast_nullable_to_non_nullable
-              as bool,
-      button7Down: null == button7Down
-          ? _value.button7Down
-          : button7Down // ignore: cast_nullable_to_non_nullable
-              as bool,
-      button8Down: null == button8Down
-          ? _value.button8Down
-          : button8Down // ignore: cast_nullable_to_non_nullable
-              as bool,
-      x: null == x
-          ? _value.x
-          : x // ignore: cast_nullable_to_non_nullable
-              as int,
-      y: null == y
-          ? _value.y
-          : y // ignore: cast_nullable_to_non_nullable
-              as int,
-    ) as $Val);
-  }
 }
 
 /// @nodoc
-abstract class _$$_RemoteFrameBufferIsolatePointerEventMessageCopyWith<$Res>
-    implements $RemoteFrameBufferIsolatePointerEventMessageCopyWith<$Res> {
-  factory _$$_RemoteFrameBufferIsolatePointerEventMessageCopyWith(
-          _$_RemoteFrameBufferIsolatePointerEventMessage value,
-          $Res Function(_$_RemoteFrameBufferIsolatePointerEventMessage) then) =
-      __$$_RemoteFrameBufferIsolatePointerEventMessageCopyWithImpl<$Res>;
-  @override
+abstract class _$$RemoteFrameBufferIsolateSendMessagePointerEventCopyWith<
+    $Res> {
+  factory _$$RemoteFrameBufferIsolateSendMessagePointerEventCopyWith(
+          _$RemoteFrameBufferIsolateSendMessagePointerEvent value,
+          $Res Function(_$RemoteFrameBufferIsolateSendMessagePointerEvent)
+              then) =
+      __$$RemoteFrameBufferIsolateSendMessagePointerEventCopyWithImpl<$Res>;
   @useResult
   $Res call(
       {bool button1Down,
@@ -663,13 +686,14 @@ abstract class _$$_RemoteFrameBufferIsolatePointerEventMessageCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_RemoteFrameBufferIsolatePointerEventMessageCopyWithImpl<$Res>
-    extends _$RemoteFrameBufferIsolatePointerEventMessageCopyWithImpl<$Res,
-        _$_RemoteFrameBufferIsolatePointerEventMessage>
-    implements _$$_RemoteFrameBufferIsolatePointerEventMessageCopyWith<$Res> {
-  __$$_RemoteFrameBufferIsolatePointerEventMessageCopyWithImpl(
-      _$_RemoteFrameBufferIsolatePointerEventMessage _value,
-      $Res Function(_$_RemoteFrameBufferIsolatePointerEventMessage) _then)
+class __$$RemoteFrameBufferIsolateSendMessagePointerEventCopyWithImpl<$Res>
+    extends _$RemoteFrameBufferIsolateSendMessageCopyWithImpl<$Res,
+        _$RemoteFrameBufferIsolateSendMessagePointerEvent>
+    implements
+        _$$RemoteFrameBufferIsolateSendMessagePointerEventCopyWith<$Res> {
+  __$$RemoteFrameBufferIsolateSendMessagePointerEventCopyWithImpl(
+      _$RemoteFrameBufferIsolateSendMessagePointerEvent _value,
+      $Res Function(_$RemoteFrameBufferIsolateSendMessagePointerEvent) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -686,7 +710,7 @@ class __$$_RemoteFrameBufferIsolatePointerEventMessageCopyWithImpl<$Res>
     Object? x = null,
     Object? y = null,
   }) {
-    return _then(_$_RemoteFrameBufferIsolatePointerEventMessage(
+    return _then(_$RemoteFrameBufferIsolateSendMessagePointerEvent(
       button1Down: null == button1Down
           ? _value.button1Down
           : button1Down // ignore: cast_nullable_to_non_nullable
@@ -733,10 +757,10 @@ class __$$_RemoteFrameBufferIsolatePointerEventMessageCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_RemoteFrameBufferIsolatePointerEventMessage
+class _$RemoteFrameBufferIsolateSendMessagePointerEvent
     with DiagnosticableTreeMixin
-    implements _RemoteFrameBufferIsolatePointerEventMessage {
-  const _$_RemoteFrameBufferIsolatePointerEventMessage(
+    implements RemoteFrameBufferIsolateSendMessagePointerEvent {
+  const _$RemoteFrameBufferIsolateSendMessagePointerEvent(
       {required this.button1Down,
       required this.button2Down,
       required this.button3Down,
@@ -771,7 +795,7 @@ class _$_RemoteFrameBufferIsolatePointerEventMessage
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'RemoteFrameBufferIsolatePointerEventMessage(button1Down: $button1Down, button2Down: $button2Down, button3Down: $button3Down, button4Down: $button4Down, button5Down: $button5Down, button6Down: $button6Down, button7Down: $button7Down, button8Down: $button8Down, x: $x, y: $y)';
+    return 'RemoteFrameBufferIsolateSendMessage.pointerEvent(button1Down: $button1Down, button2Down: $button2Down, button3Down: $button3Down, button4Down: $button4Down, button5Down: $button5Down, button6Down: $button6Down, button7Down: $button7Down, button8Down: $button8Down, x: $x, y: $y)';
   }
 
   @override
@@ -779,7 +803,7 @@ class _$_RemoteFrameBufferIsolatePointerEventMessage
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty(
-          'type', 'RemoteFrameBufferIsolatePointerEventMessage'))
+          'type', 'RemoteFrameBufferIsolateSendMessage.pointerEvent'))
       ..add(DiagnosticsProperty('button1Down', button1Down))
       ..add(DiagnosticsProperty('button2Down', button2Down))
       ..add(DiagnosticsProperty('button3Down', button3Down))
@@ -796,7 +820,7 @@ class _$_RemoteFrameBufferIsolatePointerEventMessage
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_RemoteFrameBufferIsolatePointerEventMessage &&
+            other is _$RemoteFrameBufferIsolateSendMessagePointerEvent &&
             (identical(other.button1Down, button1Down) ||
                 other.button1Down == button1Down) &&
             (identical(other.button2Down, button2Down) ||
@@ -834,50 +858,308 @@ class _$_RemoteFrameBufferIsolatePointerEventMessage
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_RemoteFrameBufferIsolatePointerEventMessageCopyWith<
-          _$_RemoteFrameBufferIsolatePointerEventMessage>
+  _$$RemoteFrameBufferIsolateSendMessagePointerEventCopyWith<
+          _$RemoteFrameBufferIsolateSendMessagePointerEvent>
       get copyWith =>
-          __$$_RemoteFrameBufferIsolatePointerEventMessageCopyWithImpl<
-              _$_RemoteFrameBufferIsolatePointerEventMessage>(this, _$identity);
+          __$$RemoteFrameBufferIsolateSendMessagePointerEventCopyWithImpl<
+                  _$RemoteFrameBufferIsolateSendMessagePointerEvent>(
+              this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            bool button1Down,
+            bool button2Down,
+            bool button3Down,
+            bool button4Down,
+            bool button5Down,
+            bool button6Down,
+            bool button7Down,
+            bool button8Down,
+            int x,
+            int y)
+        pointerEvent,
+    required TResult Function() updateRequest,
+  }) {
+    return pointerEvent(button1Down, button2Down, button3Down, button4Down,
+        button5Down, button6Down, button7Down, button8Down, x, y);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+            bool button1Down,
+            bool button2Down,
+            bool button3Down,
+            bool button4Down,
+            bool button5Down,
+            bool button6Down,
+            bool button7Down,
+            bool button8Down,
+            int x,
+            int y)?
+        pointerEvent,
+    TResult? Function()? updateRequest,
+  }) {
+    return pointerEvent?.call(button1Down, button2Down, button3Down,
+        button4Down, button5Down, button6Down, button7Down, button8Down, x, y);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(
+            bool button1Down,
+            bool button2Down,
+            bool button3Down,
+            bool button4Down,
+            bool button5Down,
+            bool button6Down,
+            bool button7Down,
+            bool button8Down,
+            int x,
+            int y)?
+        pointerEvent,
+    TResult Function()? updateRequest,
+    required TResult orElse(),
+  }) {
+    if (pointerEvent != null) {
+      return pointerEvent(button1Down, button2Down, button3Down, button4Down,
+          button5Down, button6Down, button7Down, button8Down, x, y);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(
+            RemoteFrameBufferIsolateSendMessagePointerEvent value)
+        pointerEvent,
+    required TResult Function(
+            RemoteFrameBufferIsolateSendMessageUpdateRequest value)
+        updateRequest,
+  }) {
+    return pointerEvent(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(RemoteFrameBufferIsolateSendMessagePointerEvent value)?
+        pointerEvent,
+    TResult? Function(RemoteFrameBufferIsolateSendMessageUpdateRequest value)?
+        updateRequest,
+  }) {
+    return pointerEvent?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(RemoteFrameBufferIsolateSendMessagePointerEvent value)?
+        pointerEvent,
+    TResult Function(RemoteFrameBufferIsolateSendMessageUpdateRequest value)?
+        updateRequest,
+    required TResult orElse(),
+  }) {
+    if (pointerEvent != null) {
+      return pointerEvent(this);
+    }
+    return orElse();
+  }
 }
 
-abstract class _RemoteFrameBufferIsolatePointerEventMessage
-    implements RemoteFrameBufferIsolatePointerEventMessage {
-  const factory _RemoteFrameBufferIsolatePointerEventMessage(
-      {required final bool button1Down,
-      required final bool button2Down,
-      required final bool button3Down,
-      required final bool button4Down,
-      required final bool button5Down,
-      required final bool button6Down,
-      required final bool button7Down,
-      required final bool button8Down,
-      required final int x,
-      required final int y}) = _$_RemoteFrameBufferIsolatePointerEventMessage;
+abstract class RemoteFrameBufferIsolateSendMessagePointerEvent
+    implements RemoteFrameBufferIsolateSendMessage {
+  const factory RemoteFrameBufferIsolateSendMessagePointerEvent(
+          {required final bool button1Down,
+          required final bool button2Down,
+          required final bool button3Down,
+          required final bool button4Down,
+          required final bool button5Down,
+          required final bool button6Down,
+          required final bool button7Down,
+          required final bool button8Down,
+          required final int x,
+          required final int y}) =
+      _$RemoteFrameBufferIsolateSendMessagePointerEvent;
+
+  bool get button1Down;
+  bool get button2Down;
+  bool get button3Down;
+  bool get button4Down;
+  bool get button5Down;
+  bool get button6Down;
+  bool get button7Down;
+  bool get button8Down;
+  int get x;
+  int get y;
+  @JsonKey(ignore: true)
+  _$$RemoteFrameBufferIsolateSendMessagePointerEventCopyWith<
+          _$RemoteFrameBufferIsolateSendMessagePointerEvent>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$RemoteFrameBufferIsolateSendMessageUpdateRequestCopyWith<
+    $Res> {
+  factory _$$RemoteFrameBufferIsolateSendMessageUpdateRequestCopyWith(
+          _$RemoteFrameBufferIsolateSendMessageUpdateRequest value,
+          $Res Function(_$RemoteFrameBufferIsolateSendMessageUpdateRequest)
+              then) =
+      __$$RemoteFrameBufferIsolateSendMessageUpdateRequestCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$RemoteFrameBufferIsolateSendMessageUpdateRequestCopyWithImpl<$Res>
+    extends _$RemoteFrameBufferIsolateSendMessageCopyWithImpl<$Res,
+        _$RemoteFrameBufferIsolateSendMessageUpdateRequest>
+    implements
+        _$$RemoteFrameBufferIsolateSendMessageUpdateRequestCopyWith<$Res> {
+  __$$RemoteFrameBufferIsolateSendMessageUpdateRequestCopyWithImpl(
+      _$RemoteFrameBufferIsolateSendMessageUpdateRequest _value,
+      $Res Function(_$RemoteFrameBufferIsolateSendMessageUpdateRequest) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$RemoteFrameBufferIsolateSendMessageUpdateRequest
+    with DiagnosticableTreeMixin
+    implements RemoteFrameBufferIsolateSendMessageUpdateRequest {
+  const _$RemoteFrameBufferIsolateSendMessageUpdateRequest();
 
   @override
-  bool get button1Down;
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'RemoteFrameBufferIsolateSendMessage.updateRequest()';
+  }
+
   @override
-  bool get button2Down;
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty(
+        'type', 'RemoteFrameBufferIsolateSendMessage.updateRequest'));
+  }
+
   @override
-  bool get button3Down;
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RemoteFrameBufferIsolateSendMessageUpdateRequest);
+  }
+
   @override
-  bool get button4Down;
+  int get hashCode => runtimeType.hashCode;
+
   @override
-  bool get button5Down;
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            bool button1Down,
+            bool button2Down,
+            bool button3Down,
+            bool button4Down,
+            bool button5Down,
+            bool button6Down,
+            bool button7Down,
+            bool button8Down,
+            int x,
+            int y)
+        pointerEvent,
+    required TResult Function() updateRequest,
+  }) {
+    return updateRequest();
+  }
+
   @override
-  bool get button6Down;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+            bool button1Down,
+            bool button2Down,
+            bool button3Down,
+            bool button4Down,
+            bool button5Down,
+            bool button6Down,
+            bool button7Down,
+            bool button8Down,
+            int x,
+            int y)?
+        pointerEvent,
+    TResult? Function()? updateRequest,
+  }) {
+    return updateRequest?.call();
+  }
+
   @override
-  bool get button7Down;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(
+            bool button1Down,
+            bool button2Down,
+            bool button3Down,
+            bool button4Down,
+            bool button5Down,
+            bool button6Down,
+            bool button7Down,
+            bool button8Down,
+            int x,
+            int y)?
+        pointerEvent,
+    TResult Function()? updateRequest,
+    required TResult orElse(),
+  }) {
+    if (updateRequest != null) {
+      return updateRequest();
+    }
+    return orElse();
+  }
+
   @override
-  bool get button8Down;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(
+            RemoteFrameBufferIsolateSendMessagePointerEvent value)
+        pointerEvent,
+    required TResult Function(
+            RemoteFrameBufferIsolateSendMessageUpdateRequest value)
+        updateRequest,
+  }) {
+    return updateRequest(this);
+  }
+
   @override
-  int get x;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(RemoteFrameBufferIsolateSendMessagePointerEvent value)?
+        pointerEvent,
+    TResult? Function(RemoteFrameBufferIsolateSendMessageUpdateRequest value)?
+        updateRequest,
+  }) {
+    return updateRequest?.call(this);
+  }
+
   @override
-  int get y;
-  @override
-  @JsonKey(ignore: true)
-  _$$_RemoteFrameBufferIsolatePointerEventMessageCopyWith<
-          _$_RemoteFrameBufferIsolatePointerEventMessage>
-      get copyWith => throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(RemoteFrameBufferIsolateSendMessagePointerEvent value)?
+        pointerEvent,
+    TResult Function(RemoteFrameBufferIsolateSendMessageUpdateRequest value)?
+        updateRequest,
+    required TResult orElse(),
+  }) {
+    if (updateRequest != null) {
+      return updateRequest(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class RemoteFrameBufferIsolateSendMessageUpdateRequest
+    implements RemoteFrameBufferIsolateSendMessage {
+  const factory RemoteFrameBufferIsolateSendMessageUpdateRequest() =
+      _$RemoteFrameBufferIsolateSendMessageUpdateRequest;
 }

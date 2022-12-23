@@ -7,76 +7,13 @@ import 'package:dart_rfb/dart_rfb.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide Image;
 import 'package:flutter_rfb/src/child_size_notifier_widget.dart';
+import 'package:flutter_rfb/src/remote_frame_buffer_client_isolate.dart';
+import 'package:flutter_rfb/src/remote_frame_buffer_gesture_detector.dart';
 import 'package:flutter_rfb/src/remote_frame_buffer_isolate_messages.dart';
 import 'package:fpdart/fpdart.dart' hide State;
 import 'package:logging/logging.dart';
-import 'package:stream_transform/stream_transform.dart';
 
 final Logger _logger = Logger('RemoteFrameBufferWidget');
-
-/// The isolate entry point for running the RFB client in the background.
-///
-/// [sendMessage] contains the [SendPort] for communicating with the caller.
-/// It also contains the hostname and port of the server.
-Future<void> _startRemoteFrameBufferClient(
-  final RemoteFrameBufferIsolateSendMessage sendMessage,
-) async {
-  Logger.root
-    ..level = Level.FINE
-    ..onRecord.listen(
-      (final LogRecord logRecord) {
-        if (kDebugMode) {
-          print(
-            '${logRecord.level} ${logRecord.loggerName}: ${logRecord.message}',
-          );
-        }
-      },
-    );
-  final RemoteFrameBufferClient client = RemoteFrameBufferClient();
-  final ReceivePort receivePort = ReceivePort();
-  client.updateStream.listen(
-    (final RemoteFrameBufferClientUpdate update) {
-      sendMessage.sendPort.send(
-        RemoteFrameBufferIsolateReceiveMessage(
-          frameBufferHeight: client.config
-              .map((final Config config) => config.frameBufferHeight)
-              .getOrElse(() => 0),
-          frameBufferWidth: client.config
-              .map((final Config config) => config.frameBufferWidth)
-              .getOrElse(() => 0),
-          sendPort: receivePort.sendPort,
-          update: update,
-        ),
-      );
-    },
-  );
-  receivePort.listen((final Object? message) {
-    if (message is RemoteFrameBufferIsolateRequestUpdateMessage) {
-      client.requestUpdate();
-    } else if (message is RemoteFrameBufferIsolatePointerEventMessage) {
-      client.sendPointerEvent(
-        pointerEvent: RemoteFrameBufferClientPointerEvent(
-          button1Down: message.button1Down,
-          button2Down: message.button2Down,
-          button3Down: message.button3Down,
-          button4Down: message.button4Down,
-          button5Down: message.button5Down,
-          button6Down: message.button6Down,
-          button7Down: message.button7Down,
-          button8Down: message.button8Down,
-          x: message.x,
-          y: message.y,
-        ),
-      );
-    }
-  });
-  await client.connect(
-    hostname: sendMessage.hostName,
-    password: sendMessage.password.toNullable(),
-    port: sendMessage.port,
-  );
-  unawaited(client.startReadLoop());
-}
 
 /// This widget displays the framebuffer associated with the RFB session.
 /// On creation, it tries to establish a connection with the remote server
@@ -84,6 +21,7 @@ Future<void> _startRemoteFrameBufferClient(
 class RemoteFrameBufferWidget extends StatefulWidget {
   final Option<Widget> _connectingWidget;
   final String _hostName;
+  final Option<void Function(Object error)> _onError;
   final Option<String> _password;
   final int _port;
 
@@ -93,10 +31,12 @@ class RemoteFrameBufferWidget extends StatefulWidget {
     super.key,
     final Widget? connectingWidget,
     required final String hostName,
+    final void Function(Object error)? onError,
     final String? password,
     final int port = 5900,
   })  : _connectingWidget = optionOf(connectingWidget),
         _hostName = hostName,
+        _onError = optionOf(onError),
         _password = optionOf(password),
         _port = port;
 
@@ -107,13 +47,12 @@ class RemoteFrameBufferWidget extends StatefulWidget {
 
 @visibleForTesting
 class RemoteFrameBufferWidgetState extends State<RemoteFrameBufferWidget> {
-  Option<StreamSubscription<RemoteFrameBufferIsolateReceiveMessage>>
-      _streamSubscription = none();
   Option<ByteData> _frameBuffer = none();
-  Option<Isolate> _isolate = none();
   Option<Image> _image = none();
+  Option<Isolate> _isolate = none();
   Option<SendPort> _isolateSendPort = none();
-  ValueNotifier<Size> sizeValueNotifier = ValueNotifier<Size>(Size.zero);
+  final ValueNotifier<Size> _sizeValueNotifier = ValueNotifier<Size>(Size.zero);
+  Option<StreamSubscription<Object?>> _streamSubscription = none();
 
   @override
   Widget build(final BuildContext context) => _frameBuffer
@@ -129,119 +68,15 @@ class RemoteFrameBufferWidgetState extends State<RemoteFrameBufferWidget> {
             : none<Image>(),
       )
       .match(
-        () => widget._connectingWidget.getOrElse(
-          () => const Center(child: CircularProgressIndicator()),
-        ),
-        (final Image image) => SizeTrackingWidget(
-          sizeValueNotifier: sizeValueNotifier,
-          child: GestureDetector(
-            onSecondaryTapDown: (final TapDownDetails details) =>
-                _isolateSendPort.match(
-              () {},
-              (final SendPort sendPort) => sendPort.send(
-                RemoteFrameBufferIsolatePointerEventMessage(
-                  button1Down: false,
-                  button2Down: false,
-                  button3Down: true,
-                  button4Down: false,
-                  button5Down: false,
-                  button6Down: false,
-                  button7Down: false,
-                  button8Down: false,
-                  x: (details.localPosition.dx /
-                          sizeValueNotifier.value.width *
-                          image.width)
-                      .toInt(),
-                  y: (details.localPosition.dy /
-                          sizeValueNotifier.value.height *
-                          image.height)
-                      .toInt(),
-                ),
-              ),
-            ),
-            onSecondaryTapUp: (final TapUpDetails details) =>
-                _isolateSendPort.match(
-              () {},
-              (final SendPort sendPort) => sendPort.send(
-                RemoteFrameBufferIsolatePointerEventMessage(
-                  button1Down: false,
-                  button2Down: false,
-                  button3Down: false,
-                  button4Down: false,
-                  button5Down: false,
-                  button6Down: false,
-                  button7Down: false,
-                  button8Down: false,
-                  x: (details.localPosition.dx /
-                          sizeValueNotifier.value.width *
-                          image.width)
-                      .toInt(),
-                  y: (details.localPosition.dy /
-                          sizeValueNotifier.value.height *
-                          image.height)
-                      .toInt(),
-                ),
-              ),
-            ),
-            onTapDown: (final TapDownDetails details) => _isolateSendPort.match(
-              () {},
-              (final SendPort sendPort) => sendPort.send(
-                RemoteFrameBufferIsolatePointerEventMessage(
-                  button1Down: true,
-                  button2Down: false,
-                  button3Down: false,
-                  button4Down: false,
-                  button5Down: false,
-                  button6Down: false,
-                  button7Down: false,
-                  button8Down: false,
-                  x: (details.localPosition.dx /
-                          sizeValueNotifier.value.width *
-                          image.width)
-                      .toInt(),
-                  y: (details.localPosition.dy /
-                          sizeValueNotifier.value.height *
-                          image.height)
-                      .toInt(),
-                ),
-              ),
-            ),
-            onTapUp: (final TapUpDetails details) => _isolateSendPort.match(
-              () {},
-              (final SendPort sendPort) => sendPort.send(
-                RemoteFrameBufferIsolatePointerEventMessage(
-                  button1Down: false,
-                  button2Down: false,
-                  button3Down: false,
-                  button4Down: false,
-                  button5Down: false,
-                  button6Down: false,
-                  button7Down: false,
-                  button8Down: false,
-                  x: (details.localPosition.dx /
-                          sizeValueNotifier.value.width *
-                          image.width)
-                      .toInt(),
-                  y: (details.localPosition.dy /
-                          sizeValueNotifier.value.height *
-                          image.height)
-                      .toInt(),
-                ),
-              ),
-            ),
-            child: RawImage(image: image),
-          ),
-        ),
+        _buildConnecting,
+        (final Image image) => _buildImage(image: image),
       );
 
   @override
   void dispose() {
     _streamSubscription.match(
       () {},
-      (
-        final StreamSubscription<RemoteFrameBufferIsolateReceiveMessage>
-            subscription,
-      ) =>
+      (final StreamSubscription<Object?> subscription) =>
           unawaited(subscription.cancel()),
     );
     _image.match(
@@ -261,127 +96,174 @@ class RemoteFrameBufferWidgetState extends State<RemoteFrameBufferWidget> {
     unawaited(_initAsync());
   }
 
-  /// Initializes logic that requires to be run asynchronous.
-  Future<void> _initAsync() async {
-    final ReceivePort receivePort = ReceivePort();
-    _streamSubscription = some(
-      receivePort.whereType<RemoteFrameBufferIsolateReceiveMessage>().listen(
-        (final RemoteFrameBufferIsolateReceiveMessage message) {
-          _logger.finer(
-            'Received new update message with ${message.update.rectangles.length} rectangles',
-          );
-          _isolateSendPort = some(message.sendPort);
-          if (_frameBuffer.isNone()) {
-            _frameBuffer = some(
-              ByteData(
-                message.frameBufferHeight * message.frameBufferWidth * 4,
+  Widget _buildConnecting() => widget._connectingWidget.getOrElse(
+        () => const Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+
+  SizeTrackingWidget _buildImage({required final Image image}) =>
+      SizeTrackingWidget(
+        sizeValueNotifier: _sizeValueNotifier,
+        child: RemoteFrameBufferGestureDetector(
+          image: image,
+          remoteFrameBufferWidgetSize: _sizeValueNotifier.value,
+          sendPort: _isolateSendPort,
+          child: RawImage(image: image),
+        ),
+      );
+
+  void _decodeAndUpdateImage({
+    required final ByteData frameBuffer,
+    required final RemoteFrameBufferIsolateReceiveMessage message,
+  }) =>
+      decodeImageFromPixels(
+        frameBuffer.buffer.asUint8List(),
+        message.frameBufferWidth,
+        message.frameBufferHeight,
+        PixelFormat.bgra8888,
+        (final Image result) {
+          if (mounted) {
+            setState(
+              () {
+                _image.match(
+                  () {},
+                  (final Image image) => image.dispose(),
+                );
+                _image = some(result);
+              },
+            );
+            _isolateSendPort.match(
+              () {},
+              (final SendPort sendPort) => sendPort.send(
+                const RemoteFrameBufferIsolateSendMessage.updateRequest(),
               ),
             );
           }
-          unawaited(
-            _frameBuffer.match(
-              () async {},
-              (final ByteData frameBuffer) async {
-                for (final RemoteFrameBufferClientUpdateRectangle rectangle
-                    in message.update.rectangles) {
-                  await rectangle.encodingType.when(
-                    copyRect: () async {
-                      final int sourceX = rectangle.byteData.getUint16(0);
-                      final int sourceY = rectangle.byteData.getUint16(2);
-                      final BytesBuilder bytesBuilder = BytesBuilder();
-                      for (int row = 0; row < rectangle.height; row++) {
-                        for (int column = 0;
-                            column < rectangle.width;
-                            column++) {
-                          bytesBuilder.add(
-                            frameBuffer.buffer.asUint8List(
-                              ((sourceY + row) * message.frameBufferWidth +
-                                      sourceX +
-                                      column) *
-                                  4,
-                              4,
-                            ),
-                          );
-                        }
+        },
+      );
+
+  Task<void> _handleUpdateMessage({
+    required final RemoteFrameBufferIsolateReceiveMessageUpdate update,
+  }) =>
+      Task<void>(() async {
+        _logger.finer(
+          'Received new update message with ${update.update.rectangles.length} rectangles',
+        );
+        _isolateSendPort = some(update.sendPort);
+        if (_frameBuffer.isNone()) {
+          _frameBuffer = some(
+            ByteData(
+              update.frameBufferHeight * update.frameBufferWidth * 4,
+            ),
+          );
+        }
+        unawaited(
+          _frameBuffer.match(
+            () async {},
+            (final ByteData frameBuffer) async {
+              for (final RemoteFrameBufferClientUpdateRectangle rectangle
+                  in update.update.rectangles) {
+                await rectangle.encodingType.when(
+                  copyRect: () async {
+                    final int sourceX = rectangle.byteData.getUint16(0);
+                    final int sourceY = rectangle.byteData.getUint16(2);
+                    final BytesBuilder bytesBuilder = BytesBuilder();
+                    for (int row = 0; row < rectangle.height; row++) {
+                      for (int column = 0; column < rectangle.width; column++) {
+                        bytesBuilder.add(
+                          frameBuffer.buffer.asUint8List(
+                            ((sourceY + row) * update.frameBufferWidth +
+                                    sourceX +
+                                    column) *
+                                4,
+                            4,
+                          ),
+                        );
                       }
-                      return (await updateFrameBuffer(
-                        frameBuffer: frameBuffer,
-                        frameBufferSize: Size(
-                          message.frameBufferWidth.toDouble(),
-                          message.frameBufferHeight.toDouble(),
-                        ),
-                        rectangle: rectangle.copyWith(
-                          encodingType:
-                              const RemoteFrameBufferEncodingType.raw(),
-                          byteData:
-                              ByteData.sublistView(bytesBuilder.toBytes()),
-                        ),
-                      ).run())
-                          .match(
-                        (final Object error) =>
-                            // ignore: avoid_print
-                            print('Error updating frame buffer: $error'),
-                        (final _) {},
-                      );
-                    },
-                    raw: () async => (await updateFrameBuffer(
+                    }
+                    return (await updateFrameBuffer(
                       frameBuffer: frameBuffer,
                       frameBufferSize: Size(
-                        message.frameBufferWidth.toDouble(),
-                        message.frameBufferHeight.toDouble(),
+                        update.frameBufferWidth.toDouble(),
+                        update.frameBufferHeight.toDouble(),
                       ),
-                      rectangle: rectangle,
+                      rectangle: rectangle.copyWith(
+                        encodingType: const RemoteFrameBufferEncodingType.raw(),
+                        byteData: ByteData.sublistView(
+                          bytesBuilder.toBytes(),
+                        ),
+                      ),
                     ).run())
                         .match(
                       (final Object error) =>
                           // ignore: avoid_print
                           print('Error updating frame buffer: $error'),
                       (final _) {},
-                    ),
-                    unsupported: (final ByteData bytes) async {},
-                  );
-                }
-                decodeImageFromPixels(
-                  frameBuffer.buffer.asUint8List(),
-                  message.frameBufferWidth,
-                  message.frameBufferHeight,
-                  PixelFormat.bgra8888,
-                  (final Image result) {
-                    if (mounted) {
-                      setState(
-                        () {
-                          _image.match(
-                            () {},
-                            (final Image image) => image.dispose(),
-                          );
-                          _image = some(result);
-                        },
-                      );
-                      _isolateSendPort.match(
-                        () {},
-                        (final SendPort sendPort) => sendPort.send(
-                          const RemoteFrameBufferIsolateRequestUpdateMessage(),
-                        ),
-                      );
-                    }
+                    );
                   },
+                  raw: () async => (await updateFrameBuffer(
+                    frameBuffer: frameBuffer,
+                    frameBufferSize: Size(
+                      update.frameBufferWidth.toDouble(),
+                      update.frameBufferHeight.toDouble(),
+                    ),
+                    rectangle: rectangle,
+                  ).run())
+                      .match(
+                    (final Object error) =>
+                        // ignore: avoid_print
+                        print('Error updating frame buffer: $error'),
+                    (final _) {},
+                  ),
+                  unsupported: (final ByteData bytes) async {},
                 );
+              }
+              _decodeAndUpdateImage(
+                frameBuffer: frameBuffer,
+                message: update,
+              );
+            },
+          ),
+        );
+      });
+
+  /// Initializes logic that requires to be run asynchronous.
+  Future<void> _initAsync() async {
+    final ReceivePort receivePort = ReceivePort();
+    _streamSubscription = some(
+      receivePort.listen(
+        (final Object? message) {
+          // Error, first is error, second is stacktrace or null
+          if (message is List) {
+            widget._onError.match(
+              () {},
+              (final void Function(Object error) onError) =>
+                  onError(message.first),
+            );
+          } else if (message is RemoteFrameBufferIsolateReceiveMessage) {
+            message.map(
+              update: (
+                final RemoteFrameBufferIsolateReceiveMessageUpdate update,
+              ) {
+                _handleUpdateMessage(update: update).run();
               },
-            ),
-          );
+            );
+          }
         },
       ),
     );
     _logger.info('Spawning new isolate for RFB client');
     _isolate = some(
       await Isolate.spawn(
-        _startRemoteFrameBufferClient,
-        RemoteFrameBufferIsolateSendMessage(
+        startRemoteFrameBufferClient,
+        RemoteFrameBufferIsolateInitMessage(
           hostName: widget._hostName,
           password: widget._password,
           port: widget._port,
           sendPort: receivePort.sendPort,
         ),
+        onError: receivePort.sendPort,
       ),
     );
   }

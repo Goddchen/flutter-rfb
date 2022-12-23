@@ -54,9 +54,22 @@ class _MyAppState extends State<MyApp> {
                             child: InteractiveViewer(
                               constrained: true,
                               maxScale: 10,
-                              child: RemoteFrameBufferWidget(
-                                hostName: '127.0.0.1',
-                                password: 'password',
+                              child: Builder(
+                                builder: (final BuildContext context) =>
+                                    RemoteFrameBufferWidget(
+                                  hostName: '127.0.0.1',
+                                  onError: (final Object error) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text('Error: $error'),
+                                      ),
+                                    );
+                                    setState(() {
+                                      _connected = false;
+                                    });
+                                  },
+                                  password: 'password',
+                                ),
                               ),
                             ),
                           ),
