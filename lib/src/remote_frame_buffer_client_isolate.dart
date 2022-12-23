@@ -30,7 +30,7 @@ Future<void> startRemoteFrameBufferClient(
   client.updateStream.listen(
     (final RemoteFrameBufferClientUpdate update) {
       initMessage.sendPort.send(
-        RemoteFrameBufferIsolateReceiveMessage.update(
+        RemoteFrameBufferIsolateReceiveMessage.frameBufferUpdate(
           frameBufferHeight: client.config
               .map((final Config config) => config.frameBufferHeight)
               .getOrElse(() => 0),
@@ -43,10 +43,18 @@ Future<void> startRemoteFrameBufferClient(
       );
     },
   );
+  client.serverClipBoardStream.listen(
+    (final String text) => initMessage.sendPort.send(
+      RemoteFrameBufferIsolateReceiveMessage.clipBoardUpdate(text: text),
+    ),
+  );
   receivePort
       .whereType<RemoteFrameBufferIsolateSendMessage>()
       .listen((final RemoteFrameBufferIsolateSendMessage message) {
     message.map(
+      clipBoardUpdate:
+          (final RemoteFrameBufferIsolateSendMessageClipBoardUpdate update) =>
+              client.sendClientCutText(text: update.text),
       keyEvent: (final RemoteFrameBufferIsolateSendMessageKeyEvent keyEvent) =>
           client.sendKeyEvent(
         keyEvent: RemoteFrameBufferClientKeyEvent(
@@ -71,7 +79,7 @@ Future<void> startRemoteFrameBufferClient(
           y: pointerEvent.y,
         ),
       ),
-      updateRequest: (final _) => client.requestUpdate(),
+      frameBufferUpdateRequest: (final _) => client.requestUpdate(),
     );
   });
   await client.connect(

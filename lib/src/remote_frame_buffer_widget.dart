@@ -49,6 +49,7 @@ class RemoteFrameBufferWidget extends StatefulWidget {
 
 @visibleForTesting
 class RemoteFrameBufferWidgetState extends State<RemoteFrameBufferWidget> {
+  late Timer _clipBoardMonitorTimer;
   Option<ByteData> _frameBuffer = none();
   Option<Image> _image = none();
   Option<Isolate> _isolate = none();
@@ -73,8 +74,10 @@ class RemoteFrameBufferWidgetState extends State<RemoteFrameBufferWidget> {
         _buildConnecting,
         (final Image image) => _buildImage(image: image),
       );
+
   @override
   void dispose() {
+    _clipBoardMonitorTimer.cancel();
     _streamSubscription.match(
       () {},
       (final StreamSubscription<Object?> subscription) =>
@@ -95,6 +98,7 @@ class RemoteFrameBufferWidgetState extends State<RemoteFrameBufferWidget> {
   @override
   void initState() {
     super.initState();
+    _monitorClipBoard();
     RawKeyboard.instance.addListener(_rawKeyEventListener);
     unawaited(_initAsync());
   }
@@ -118,7 +122,8 @@ class RemoteFrameBufferWidgetState extends State<RemoteFrameBufferWidget> {
 
   void _decodeAndUpdateImage({
     required final ByteData frameBuffer,
-    required final RemoteFrameBufferIsolateReceiveMessage message,
+    required final RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdate
+        message,
   }) =>
       decodeImageFromPixels(
         frameBuffer.buffer.asUint8List(),
@@ -139,15 +144,17 @@ class RemoteFrameBufferWidgetState extends State<RemoteFrameBufferWidget> {
             _isolateSendPort.match(
               () {},
               (final SendPort sendPort) => sendPort.send(
-                const RemoteFrameBufferIsolateSendMessage.updateRequest(),
+                const RemoteFrameBufferIsolateSendMessage
+                    .frameBufferUpdateRequest(),
               ),
             );
           }
         },
       );
 
-  Task<void> _handleUpdateMessage({
-    required final RemoteFrameBufferIsolateReceiveMessageUpdate update,
+  Task<void> _handleFrameBufferUpdateMessage({
+    required final RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdate
+        update,
   }) =>
       Task<void>(() async {
         _logger.finer(
@@ -246,10 +253,16 @@ class RemoteFrameBufferWidgetState extends State<RemoteFrameBufferWidget> {
             );
           } else if (message is RemoteFrameBufferIsolateReceiveMessage) {
             message.map(
-              update: (
-                final RemoteFrameBufferIsolateReceiveMessageUpdate update,
+              clipBoardUpdate: (
+                final RemoteFrameBufferIsolateReceiveMessageClipBoardUpdate
+                    update,
+              ) =>
+                  Clipboard.setData(ClipboardData(text: update.text)),
+              frameBufferUpdate: (
+                final RemoteFrameBufferIsolateReceiveMessageFrameBufferUpdate
+                    update,
               ) {
-                _handleUpdateMessage(update: update).run();
+                _handleFrameBufferUpdateMessage(update: update).run();
               },
             );
           }
@@ -268,6 +281,38 @@ class RemoteFrameBufferWidgetState extends State<RemoteFrameBufferWidget> {
         ),
         onError: receivePort.sendPort,
       ),
+    );
+  }
+
+  void _monitorClipBoard() {
+    Option<String> lastClipBoardContent = none();
+    _clipBoardMonitorTimer = Timer.periodic(
+      const Duration(seconds: 1),
+      (final _) async {
+        optionOf(await Clipboard.getData(Clipboard.kTextPlain))
+            .flatMap((final ClipboardData data) => optionOf(data.text))
+            .filter(
+              (final String text) => lastClipBoardContent.match(
+                () => true,
+                (final String lastClipBoardContent) =>
+                    lastClipBoardContent != text,
+              ),
+            )
+            .match(
+              () {},
+              (final String text) => _isolateSendPort.match(
+                () {},
+                (final SendPort sendPort) {
+                  lastClipBoardContent = some(text);
+                  sendPort.send(
+                    RemoteFrameBufferIsolateSendMessage.clipBoardUpdate(
+                      text: text,
+                    ),
+                  );
+                },
+              ),
+            );
+      },
     );
   }
 

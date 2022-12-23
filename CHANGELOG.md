@@ -26,3 +26,8 @@
 
 - Update `dart_rfb` to version 0.5.0 (key event support)
 - Add key event support
+
+## 0.6.0
+
+- Update `dart_rfb` to version 0.6.0 (clipboard support)
+- Add clipboard support
