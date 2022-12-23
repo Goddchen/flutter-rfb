@@ -6,7 +6,9 @@ import 'dart:ui';
 import 'package:dart_rfb/dart_rfb.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide Image;
+import 'package:flutter/services.dart';
 import 'package:flutter_rfb/src/child_size_notifier_widget.dart';
+import 'package:flutter_rfb/src/extensions/logical_keyboard_key_extensions.dart';
 import 'package:flutter_rfb/src/remote_frame_buffer_client_isolate.dart';
 import 'package:flutter_rfb/src/remote_frame_buffer_gesture_detector.dart';
 import 'package:flutter_rfb/src/remote_frame_buffer_isolate_messages.dart';
@@ -71,7 +73,6 @@ class RemoteFrameBufferWidgetState extends State<RemoteFrameBufferWidget> {
         _buildConnecting,
         (final Image image) => _buildImage(image: image),
       );
-
   @override
   void dispose() {
     _streamSubscription.match(
@@ -87,12 +88,14 @@ class RemoteFrameBufferWidgetState extends State<RemoteFrameBufferWidget> {
       () {},
       (final Isolate isolate) => isolate.kill(),
     );
+    RawKeyboard.instance.removeListener(_rawKeyEventListener);
     super.dispose();
   }
 
   @override
   void initState() {
     super.initState();
+    RawKeyboard.instance.addListener(_rawKeyEventListener);
     unawaited(_initAsync());
   }
 
@@ -267,6 +270,17 @@ class RemoteFrameBufferWidgetState extends State<RemoteFrameBufferWidget> {
       ),
     );
   }
+
+  void _rawKeyEventListener(final RawKeyEvent rawKeyEvent) =>
+      _isolateSendPort.match(
+        () {},
+        (final SendPort sendPort) => sendPort.send(
+          RemoteFrameBufferIsolateSendMessage.keyEvent(
+            down: rawKeyEvent.isKeyPressed(rawKeyEvent.logicalKey),
+            key: rawKeyEvent.logicalKey.asXWindowSystemKey(),
+          ),
+        ),
+      );
 
   /// Updates [frameBuffer] with the given [rectangle]s.
   @visibleForTesting

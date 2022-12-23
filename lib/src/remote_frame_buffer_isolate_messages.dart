@@ -37,6 +37,12 @@ class RemoteFrameBufferIsolateInitMessage
 @freezed
 class RemoteFrameBufferIsolateSendMessage
     with _$RemoteFrameBufferIsolateSendMessage {
+  /// A message that is sent when a key is pressed.
+  const factory RemoteFrameBufferIsolateSendMessage.keyEvent({
+    required final bool down,
+    required final int key,
+  }) = RemoteFrameBufferIsolateSendMessageKeyEvent;
+
   /// A message that represents the state of all pointer buttons and coordinates.
   const factory RemoteFrameBufferIsolateSendMessage.pointerEvent({
     required final bool button1Down,

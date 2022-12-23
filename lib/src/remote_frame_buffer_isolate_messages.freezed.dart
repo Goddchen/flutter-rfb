@@ -563,6 +563,7 @@ abstract class _RemoteFrameBufferIsolateInitMessage
 mixin _$RemoteFrameBufferIsolateSendMessage {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(bool down, int key) keyEvent,
     required TResult Function(
             bool button1Down,
             bool button2Down,
@@ -580,6 +581,7 @@ mixin _$RemoteFrameBufferIsolateSendMessage {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(bool down, int key)? keyEvent,
     TResult? Function(
             bool button1Down,
             bool button2Down,
@@ -597,6 +599,7 @@ mixin _$RemoteFrameBufferIsolateSendMessage {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(bool down, int key)? keyEvent,
     TResult Function(
             bool button1Down,
             bool button2Down,
@@ -615,6 +618,8 @@ mixin _$RemoteFrameBufferIsolateSendMessage {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(RemoteFrameBufferIsolateSendMessageKeyEvent value)
+        keyEvent,
     required TResult Function(
             RemoteFrameBufferIsolateSendMessagePointerEvent value)
         pointerEvent,
@@ -625,6 +630,8 @@ mixin _$RemoteFrameBufferIsolateSendMessage {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(RemoteFrameBufferIsolateSendMessageKeyEvent value)?
+        keyEvent,
     TResult? Function(RemoteFrameBufferIsolateSendMessagePointerEvent value)?
         pointerEvent,
     TResult? Function(RemoteFrameBufferIsolateSendMessageUpdateRequest value)?
@@ -633,6 +640,8 @@ mixin _$RemoteFrameBufferIsolateSendMessage {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(RemoteFrameBufferIsolateSendMessageKeyEvent value)?
+        keyEvent,
     TResult Function(RemoteFrameBufferIsolateSendMessagePointerEvent value)?
         pointerEvent,
     TResult Function(RemoteFrameBufferIsolateSendMessageUpdateRequest value)?
@@ -661,6 +670,221 @@ class _$RemoteFrameBufferIsolateSendMessageCopyWithImpl<$Res,
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+}
+
+/// @nodoc
+abstract class _$$RemoteFrameBufferIsolateSendMessageKeyEventCopyWith<$Res> {
+  factory _$$RemoteFrameBufferIsolateSendMessageKeyEventCopyWith(
+          _$RemoteFrameBufferIsolateSendMessageKeyEvent value,
+          $Res Function(_$RemoteFrameBufferIsolateSendMessageKeyEvent) then) =
+      __$$RemoteFrameBufferIsolateSendMessageKeyEventCopyWithImpl<$Res>;
+  @useResult
+  $Res call({bool down, int key});
+}
+
+/// @nodoc
+class __$$RemoteFrameBufferIsolateSendMessageKeyEventCopyWithImpl<$Res>
+    extends _$RemoteFrameBufferIsolateSendMessageCopyWithImpl<$Res,
+        _$RemoteFrameBufferIsolateSendMessageKeyEvent>
+    implements _$$RemoteFrameBufferIsolateSendMessageKeyEventCopyWith<$Res> {
+  __$$RemoteFrameBufferIsolateSendMessageKeyEventCopyWithImpl(
+      _$RemoteFrameBufferIsolateSendMessageKeyEvent _value,
+      $Res Function(_$RemoteFrameBufferIsolateSendMessageKeyEvent) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? down = null,
+    Object? key = null,
+  }) {
+    return _then(_$RemoteFrameBufferIsolateSendMessageKeyEvent(
+      down: null == down
+          ? _value.down
+          : down // ignore: cast_nullable_to_non_nullable
+              as bool,
+      key: null == key
+          ? _value.key
+          : key // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$RemoteFrameBufferIsolateSendMessageKeyEvent
+    with DiagnosticableTreeMixin
+    implements RemoteFrameBufferIsolateSendMessageKeyEvent {
+  const _$RemoteFrameBufferIsolateSendMessageKeyEvent(
+      {required this.down, required this.key});
+
+  @override
+  final bool down;
+  @override
+  final int key;
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'RemoteFrameBufferIsolateSendMessage.keyEvent(down: $down, key: $key)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty(
+          'type', 'RemoteFrameBufferIsolateSendMessage.keyEvent'))
+      ..add(DiagnosticsProperty('down', down))
+      ..add(DiagnosticsProperty('key', key));
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RemoteFrameBufferIsolateSendMessageKeyEvent &&
+            (identical(other.down, down) || other.down == down) &&
+            (identical(other.key, key) || other.key == key));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, down, key);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RemoteFrameBufferIsolateSendMessageKeyEventCopyWith<
+          _$RemoteFrameBufferIsolateSendMessageKeyEvent>
+      get copyWith =>
+          __$$RemoteFrameBufferIsolateSendMessageKeyEventCopyWithImpl<
+              _$RemoteFrameBufferIsolateSendMessageKeyEvent>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(bool down, int key) keyEvent,
+    required TResult Function(
+            bool button1Down,
+            bool button2Down,
+            bool button3Down,
+            bool button4Down,
+            bool button5Down,
+            bool button6Down,
+            bool button7Down,
+            bool button8Down,
+            int x,
+            int y)
+        pointerEvent,
+    required TResult Function() updateRequest,
+  }) {
+    return keyEvent(down, key);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(bool down, int key)? keyEvent,
+    TResult? Function(
+            bool button1Down,
+            bool button2Down,
+            bool button3Down,
+            bool button4Down,
+            bool button5Down,
+            bool button6Down,
+            bool button7Down,
+            bool button8Down,
+            int x,
+            int y)?
+        pointerEvent,
+    TResult? Function()? updateRequest,
+  }) {
+    return keyEvent?.call(down, key);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(bool down, int key)? keyEvent,
+    TResult Function(
+            bool button1Down,
+            bool button2Down,
+            bool button3Down,
+            bool button4Down,
+            bool button5Down,
+            bool button6Down,
+            bool button7Down,
+            bool button8Down,
+            int x,
+            int y)?
+        pointerEvent,
+    TResult Function()? updateRequest,
+    required TResult orElse(),
+  }) {
+    if (keyEvent != null) {
+      return keyEvent(down, key);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(RemoteFrameBufferIsolateSendMessageKeyEvent value)
+        keyEvent,
+    required TResult Function(
+            RemoteFrameBufferIsolateSendMessagePointerEvent value)
+        pointerEvent,
+    required TResult Function(
+            RemoteFrameBufferIsolateSendMessageUpdateRequest value)
+        updateRequest,
+  }) {
+    return keyEvent(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(RemoteFrameBufferIsolateSendMessageKeyEvent value)?
+        keyEvent,
+    TResult? Function(RemoteFrameBufferIsolateSendMessagePointerEvent value)?
+        pointerEvent,
+    TResult? Function(RemoteFrameBufferIsolateSendMessageUpdateRequest value)?
+        updateRequest,
+  }) {
+    return keyEvent?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(RemoteFrameBufferIsolateSendMessageKeyEvent value)?
+        keyEvent,
+    TResult Function(RemoteFrameBufferIsolateSendMessagePointerEvent value)?
+        pointerEvent,
+    TResult Function(RemoteFrameBufferIsolateSendMessageUpdateRequest value)?
+        updateRequest,
+    required TResult orElse(),
+  }) {
+    if (keyEvent != null) {
+      return keyEvent(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class RemoteFrameBufferIsolateSendMessageKeyEvent
+    implements RemoteFrameBufferIsolateSendMessage {
+  const factory RemoteFrameBufferIsolateSendMessageKeyEvent(
+      {required final bool down,
+      required final int key}) = _$RemoteFrameBufferIsolateSendMessageKeyEvent;
+
+  bool get down;
+  int get key;
+  @JsonKey(ignore: true)
+  _$$RemoteFrameBufferIsolateSendMessageKeyEventCopyWith<
+          _$RemoteFrameBufferIsolateSendMessageKeyEvent>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -868,6 +1092,7 @@ class _$RemoteFrameBufferIsolateSendMessagePointerEvent
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(bool down, int key) keyEvent,
     required TResult Function(
             bool button1Down,
             bool button2Down,
@@ -889,6 +1114,7 @@ class _$RemoteFrameBufferIsolateSendMessagePointerEvent
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(bool down, int key)? keyEvent,
     TResult? Function(
             bool button1Down,
             bool button2Down,
@@ -910,6 +1136,7 @@ class _$RemoteFrameBufferIsolateSendMessagePointerEvent
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(bool down, int key)? keyEvent,
     TResult Function(
             bool button1Down,
             bool button2Down,
@@ -935,6 +1162,8 @@ class _$RemoteFrameBufferIsolateSendMessagePointerEvent
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(RemoteFrameBufferIsolateSendMessageKeyEvent value)
+        keyEvent,
     required TResult Function(
             RemoteFrameBufferIsolateSendMessagePointerEvent value)
         pointerEvent,
@@ -948,6 +1177,8 @@ class _$RemoteFrameBufferIsolateSendMessagePointerEvent
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(RemoteFrameBufferIsolateSendMessageKeyEvent value)?
+        keyEvent,
     TResult? Function(RemoteFrameBufferIsolateSendMessagePointerEvent value)?
         pointerEvent,
     TResult? Function(RemoteFrameBufferIsolateSendMessageUpdateRequest value)?
@@ -959,6 +1190,8 @@ class _$RemoteFrameBufferIsolateSendMessagePointerEvent
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(RemoteFrameBufferIsolateSendMessageKeyEvent value)?
+        keyEvent,
     TResult Function(RemoteFrameBufferIsolateSendMessagePointerEvent value)?
         pointerEvent,
     TResult Function(RemoteFrameBufferIsolateSendMessageUpdateRequest value)?
@@ -1057,6 +1290,7 @@ class _$RemoteFrameBufferIsolateSendMessageUpdateRequest
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(bool down, int key) keyEvent,
     required TResult Function(
             bool button1Down,
             bool button2Down,
@@ -1077,6 +1311,7 @@ class _$RemoteFrameBufferIsolateSendMessageUpdateRequest
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(bool down, int key)? keyEvent,
     TResult? Function(
             bool button1Down,
             bool button2Down,
@@ -1097,6 +1332,7 @@ class _$RemoteFrameBufferIsolateSendMessageUpdateRequest
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(bool down, int key)? keyEvent,
     TResult Function(
             bool button1Down,
             bool button2Down,
@@ -1121,6 +1357,8 @@ class _$RemoteFrameBufferIsolateSendMessageUpdateRequest
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(RemoteFrameBufferIsolateSendMessageKeyEvent value)
+        keyEvent,
     required TResult Function(
             RemoteFrameBufferIsolateSendMessagePointerEvent value)
         pointerEvent,
@@ -1134,6 +1372,8 @@ class _$RemoteFrameBufferIsolateSendMessageUpdateRequest
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(RemoteFrameBufferIsolateSendMessageKeyEvent value)?
+        keyEvent,
     TResult? Function(RemoteFrameBufferIsolateSendMessagePointerEvent value)?
         pointerEvent,
     TResult? Function(RemoteFrameBufferIsolateSendMessageUpdateRequest value)?
@@ -1145,6 +1385,8 @@ class _$RemoteFrameBufferIsolateSendMessageUpdateRequest
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(RemoteFrameBufferIsolateSendMessageKeyEvent value)?
+        keyEvent,
     TResult Function(RemoteFrameBufferIsolateSendMessagePointerEvent value)?
         pointerEvent,
     TResult Function(RemoteFrameBufferIsolateSendMessageUpdateRequest value)?

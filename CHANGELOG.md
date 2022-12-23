@@ -21,3 +21,8 @@
 - Update `dart_rfb` to version 0.4.1 (hanging fix)
 - Introduce `RemoteFrameBufferWidget.onError`
 - Introduce `RemoteFrameBufferWidget.connectingWidget`
+
+## 0.5.0
+
+- Update `dart_rfb` to version 0.5.0 (key event support)
+- Add key event support
