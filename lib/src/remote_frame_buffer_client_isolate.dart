@@ -47,6 +47,13 @@ Future<void> startRemoteFrameBufferClient(
       .whereType<RemoteFrameBufferIsolateSendMessage>()
       .listen((final RemoteFrameBufferIsolateSendMessage message) {
     message.map(
+      keyEvent: (final RemoteFrameBufferIsolateSendMessageKeyEvent keyEvent) =>
+          client.sendKeyEvent(
+        keyEvent: RemoteFrameBufferClientKeyEvent(
+          down: keyEvent.down,
+          key: keyEvent.key,
+        ),
+      ),
       pointerEvent: (
         final RemoteFrameBufferIsolateSendMessagePointerEvent pointerEvent,
       ) =>
