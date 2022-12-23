@@ -15,3 +15,9 @@
 ## 0.3.0
 
 - Add CopyRect encoding support
+
+## 0.4.0
+
+- Update `dart_rfb` to version 0.4.1 (hanging fix)
+- Introduce `RemoteFrameBufferWidget.onError`
+- Introduce `RemoteFrameBufferWidget.connectingWidget`
