@@ -87,5 +87,7 @@ Future<void> startRemoteFrameBufferClient(
     password: initMessage.password.toNullable(),
     port: initMessage.port,
   );
-  unawaited(client.startReadLoop());
+  client
+    ..handleIncomingMessages()
+    ..requestUpdate();
 }

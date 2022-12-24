@@ -35,3 +35,7 @@
 ## 0.6.1
 
 - Just a formatting fix
+
+## 0.6.2
+
+- Update `dart_rfb` to version 0.7.0 (refactored read loop)
