@@ -86,7 +86,9 @@ Future<void> startRemoteFrameBufferClient(
     hostname: initMessage.hostName,
     password: initMessage.password.toNullable(),
     port: initMessage.port,
+    timeout: initMessage.timeout,
   );
+
   client
     ..handleIncomingMessages()
     ..requestUpdate();

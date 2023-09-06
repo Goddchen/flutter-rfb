@@ -15,6 +15,7 @@ class RemoteFrameBufferIsolateInitMessage
     required final String hostName,
     required final Option<String> password,
     required final int port,
+    required final Duration? timeout,
 
     /// The [SendPort] used for communicating with the caller.
     required final SendPort sendPort,

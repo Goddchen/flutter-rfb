@@ -26,6 +26,9 @@ class RemoteFrameBufferWidget extends StatefulWidget {
   final Option<void Function(Object error)> _onError;
   final Option<String> _password;
   final int _port;
+  final Option<ValueNotifier<Map<String, dynamic>>> _keyEventNotifier;
+  final Option<bool> _monitorClipBoard;
+  final Duration? _timeout;
 
   /// Immediately tries to establish a connection to a remote server at
   /// [hostName]:[port], optionally using [password].
@@ -36,11 +39,17 @@ class RemoteFrameBufferWidget extends StatefulWidget {
     final void Function(Object error)? onError,
     final String? password,
     final int port = 5900,
+    final ValueNotifier<Map<String, dynamic>>? keyEventNotifier,
+    final bool? monitorClipBoard = true,
+    final Duration? timeout,
   })  : _connectingWidget = optionOf(connectingWidget),
         _hostName = hostName,
         _onError = optionOf(onError),
         _password = optionOf(password),
-        _port = port;
+        _port = port,
+        _keyEventNotifier = optionOf(keyEventNotifier),
+        _monitorClipBoard = optionOf(monitorClipBoard),
+        _timeout = timeout;
 
   @override
   State<RemoteFrameBufferWidget> createState() =>
@@ -77,7 +86,9 @@ class RemoteFrameBufferWidgetState extends State<RemoteFrameBufferWidget> {
 
   @override
   void dispose() {
-    _clipBoardMonitorTimer.cancel();
+    if (widget._monitorClipBoard.getOrElse(() => false)) {
+      _clipBoardMonitorTimer.cancel();
+    }
     _streamSubscription.match(
       () {},
       (final StreamSubscription<Object?> subscription) =>
@@ -91,6 +102,11 @@ class RemoteFrameBufferWidgetState extends State<RemoteFrameBufferWidget> {
       () {},
       (final Isolate isolate) => isolate.kill(),
     );
+    widget._keyEventNotifier.match(
+      () {},
+      (final ValueNotifier<Map<String, dynamic>> notifier) =>
+          notifier.removeListener(_keyEventListener),
+    );
     RawKeyboard.instance.removeListener(_rawKeyEventListener);
     super.dispose();
   }
@@ -98,7 +114,14 @@ class RemoteFrameBufferWidgetState extends State<RemoteFrameBufferWidget> {
   @override
   void initState() {
     super.initState();
-    _monitorClipBoard();
+    if (widget._monitorClipBoard.getOrElse(() => false)) {
+      _monitorClipBoard();
+    }
+    widget._keyEventNotifier.match(
+      () {},
+      (final ValueNotifier<Map<String, dynamic>> notifier) =>
+          notifier.addListener(_keyEventListener),
+    );
     RawKeyboard.instance.addListener(_rawKeyEventListener);
     unawaited(_initAsync());
   }
@@ -277,6 +300,7 @@ class RemoteFrameBufferWidgetState extends State<RemoteFrameBufferWidget> {
           hostName: widget._hostName,
           password: widget._password,
           port: widget._port,
+          timeout: widget._timeout,
           sendPort: receivePort.sendPort,
         ),
         onError: receivePort.sendPort,
@@ -316,16 +340,36 @@ class RemoteFrameBufferWidgetState extends State<RemoteFrameBufferWidget> {
     );
   }
 
-  void _rawKeyEventListener(final RawKeyEvent rawKeyEvent) =>
-      _isolateSendPort.match(
-        () {},
-        (final SendPort sendPort) => sendPort.send(
-          RemoteFrameBufferIsolateSendMessage.keyEvent(
-            down: rawKeyEvent.isKeyPressed(rawKeyEvent.logicalKey),
-            key: rawKeyEvent.logicalKey.asXWindowSystemKey(),
-          ),
+  void _keyEventListener() {
+    _isolateSendPort.match(
+      () {},
+      (final SendPort sendPort) {
+        widget._keyEventNotifier.match(() => null,
+            (final ValueNotifier<Map<String, dynamic>> notifier) {
+          final Map<String, dynamic> event = notifier.value;
+          final LogicalKeyboardKey keyboardKey = event['keyboardKey'];
+          sendPort.send(
+            RemoteFrameBufferIsolateSendMessage.keyEvent(
+              down: event['isDown'],
+              key: keyboardKey.asXWindowSystemKey(),
+            ),
+          );
+        });
+      },
+    );
+  }
+
+  void _rawKeyEventListener(final RawKeyEvent rawKeyEvent) {
+    _isolateSendPort.match(
+      () {},
+      (final SendPort sendPort) => sendPort.send(
+        RemoteFrameBufferIsolateSendMessage.keyEvent(
+          down: rawKeyEvent.isKeyPressed(rawKeyEvent.logicalKey),
+          key: rawKeyEvent.logicalKey.asXWindowSystemKey(),
         ),
-      );
+      ),
+    );
+  }
 
   /// Updates [frameBuffer] with the given [rectangle]s.
   @visibleForTesting
