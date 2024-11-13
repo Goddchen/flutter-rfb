@@ -19,6 +19,7 @@ mixin _$RemoteFrameBufferIsolateInitMessage {
   String get hostName => throw _privateConstructorUsedError;
   Option<String> get password => throw _privateConstructorUsedError;
   int get port => throw _privateConstructorUsedError;
+  Duration? get timeout => throw _privateConstructorUsedError;
 
   /// The [SendPort] used for communicating with the caller.
   SendPort get sendPort => throw _privateConstructorUsedError;
@@ -37,8 +38,13 @@ abstract class $RemoteFrameBufferIsolateInitMessageCopyWith<$Res> {
       _$RemoteFrameBufferIsolateInitMessageCopyWithImpl<$Res,
           RemoteFrameBufferIsolateInitMessage>;
   @useResult
-  $Res call(
-      {String hostName, Option<String> password, int port, SendPort sendPort});
+  $Res call({
+    String hostName,
+    Option<String> password,
+    int port,
+    Duration? timeout,
+    SendPort sendPort,
+  });
 }
 
 /// @nodoc
@@ -58,6 +64,7 @@ class _$RemoteFrameBufferIsolateInitMessageCopyWithImpl<$Res,
     Object? hostName = null,
     Object? password = null,
     Object? port = null,
+    Object? timeout = null,
     Object? sendPort = null,
   }) {
     return _then(_value.copyWith(
@@ -73,6 +80,10 @@ class _$RemoteFrameBufferIsolateInitMessageCopyWithImpl<$Res,
           ? _value.port
           : port // ignore: cast_nullable_to_non_nullable
               as int,
+      timeout: null == timeout
+          ? _value.timeout
+          : timeout // ignore: cast_nullable_to_non_nullable
+              as Duration?,
       sendPort: null == sendPort
           ? _value.sendPort
           : sendPort // ignore: cast_nullable_to_non_nullable
@@ -90,8 +101,13 @@ abstract class _$$_RemoteFrameBufferIsolateInitMessageCopyWith<$Res>
       __$$_RemoteFrameBufferIsolateInitMessageCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String hostName, Option<String> password, int port, SendPort sendPort});
+  $Res call({
+    String hostName,
+    Option<String> password,
+    int port,
+    Duration? timeout,
+    SendPort sendPort,
+  });
 }
 
 /// @nodoc
@@ -110,6 +126,7 @@ class __$$_RemoteFrameBufferIsolateInitMessageCopyWithImpl<$Res>
     Object? hostName = null,
     Object? password = null,
     Object? port = null,
+    Object? timeout = null,
     Object? sendPort = null,
   }) {
     return _then(_$_RemoteFrameBufferIsolateInitMessage(
@@ -125,6 +142,10 @@ class __$$_RemoteFrameBufferIsolateInitMessageCopyWithImpl<$Res>
           ? _value.port
           : port // ignore: cast_nullable_to_non_nullable
               as int,
+      timeout: null == timeout
+          ? _value.timeout
+          : timeout // ignore: cast_nullable_to_non_nullable
+              as Duration?,
       sendPort: null == sendPort
           ? _value.sendPort
           : sendPort // ignore: cast_nullable_to_non_nullable
@@ -142,6 +163,7 @@ class _$_RemoteFrameBufferIsolateInitMessage
       {required this.hostName,
       required this.password,
       required this.port,
+      required this.timeout,
       required this.sendPort});
 
   @override
@@ -150,6 +172,8 @@ class _$_RemoteFrameBufferIsolateInitMessage
   final Option<String> password;
   @override
   final int port;
+  @override
+  final Duration? timeout;
 
   /// The [SendPort] used for communicating with the caller.
   @override
@@ -157,7 +181,7 @@ class _$_RemoteFrameBufferIsolateInitMessage
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'RemoteFrameBufferIsolateInitMessage(hostName: $hostName, password: $password, port: $port, sendPort: $sendPort)';
+    return 'RemoteFrameBufferIsolateInitMessage(hostName: $hostName, password: $password, port: $port, sendPort: $sendPort, timeout: $timeout)';
   }
 
   @override
@@ -168,6 +192,7 @@ class _$_RemoteFrameBufferIsolateInitMessage
       ..add(DiagnosticsProperty('hostName', hostName))
       ..add(DiagnosticsProperty('password', password))
       ..add(DiagnosticsProperty('port', port))
+      ..add(DiagnosticsProperty('timeout', timeout))
       ..add(DiagnosticsProperty('sendPort', sendPort));
   }
 
@@ -181,13 +206,14 @@ class _$_RemoteFrameBufferIsolateInitMessage
             (identical(other.password, password) ||
                 other.password == password) &&
             (identical(other.port, port) || other.port == port) &&
+            (identical(other.timeout, timeout) || other.timeout == timeout) &&
             (identical(other.sendPort, sendPort) ||
                 other.sendPort == sendPort));
   }
 
   @override
   int get hashCode =>
-      Object.hash(runtimeType, hostName, password, port, sendPort);
+      Object.hash(runtimeType, hostName, password, port, sendPort, timeout);
 
   @JsonKey(ignore: true)
   @override
@@ -204,6 +230,7 @@ abstract class _RemoteFrameBufferIsolateInitMessage
           {required final String hostName,
           required final Option<String> password,
           required final int port,
+          required final Duration? timeout,
           required final SendPort sendPort}) =
       _$_RemoteFrameBufferIsolateInitMessage;
 
@@ -213,6 +240,8 @@ abstract class _RemoteFrameBufferIsolateInitMessage
   Option<String> get password;
   @override
   int get port;
+  @override
+  Duration? get timeout;
   @override
 
   /// The [SendPort] used for communicating with the caller.

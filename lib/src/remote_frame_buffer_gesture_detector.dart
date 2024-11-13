@@ -76,51 +76,65 @@ class RemoteFrameBufferGestureDetector extends GestureDetector {
   GestureTapDownCallback? get onTapDown =>
       (final TapDownDetails details) => _sendPort.match(
             () {},
-            (final SendPort sendPort) => sendPort.send(
-              RemoteFrameBufferIsolateSendMessage.pointerEvent(
-                button1Down: true,
-                button2Down: false,
-                button3Down: false,
-                button4Down: false,
-                button5Down: false,
-                button6Down: false,
-                button7Down: false,
-                button8Down: false,
-                x: (details.localPosition.dx /
-                        _remoteFrameBufferWidgetSize.width *
-                        _image.width)
-                    .toInt(),
-                y: (details.localPosition.dy /
-                        _remoteFrameBufferWidgetSize.height *
-                        _image.height)
-                    .toInt(),
-              ),
-            ),
+            (final SendPort sendPort) {
+              num x = details.localPosition.dx /
+                  _remoteFrameBufferWidgetSize.width *
+                  _image.width;
+              num y = details.localPosition.dy /
+                  _remoteFrameBufferWidgetSize.height *
+                  _image.height;
+
+              if (x.isInfinite || y.isInfinite) {
+                return;
+              }
+
+              sendPort.send(
+                RemoteFrameBufferIsolateSendMessage.pointerEvent(
+                  button1Down: true,
+                  button2Down: false,
+                  button3Down: false,
+                  button4Down: false,
+                  button5Down: false,
+                  button6Down: false,
+                  button7Down: false,
+                  button8Down: false,
+                  x: x.toInt(),
+                  y: y.toInt(),
+                ),
+              );
+            },
           );
 
   @override
   GestureTapUpCallback? get onTapUp =>
       (final TapUpDetails details) => _sendPort.match(
             () {},
-            (final SendPort sendPort) => sendPort.send(
-              RemoteFrameBufferIsolateSendMessage.pointerEvent(
-                button1Down: false,
-                button2Down: false,
-                button3Down: false,
-                button4Down: false,
-                button5Down: false,
-                button6Down: false,
-                button7Down: false,
-                button8Down: false,
-                x: (details.localPosition.dx /
-                        _remoteFrameBufferWidgetSize.width *
-                        _image.width)
-                    .toInt(),
-                y: (details.localPosition.dy /
-                        _remoteFrameBufferWidgetSize.height *
-                        _image.height)
-                    .toInt(),
-              ),
-            ),
+            (final SendPort sendPort) {
+              num x = details.localPosition.dx /
+                  _remoteFrameBufferWidgetSize.width *
+                  _image.width;
+              num y = details.localPosition.dy /
+                  _remoteFrameBufferWidgetSize.height *
+                  _image.height;
+
+              if (x.isInfinite || y.isInfinite) {
+                return;
+              }
+
+              sendPort.send(
+                RemoteFrameBufferIsolateSendMessage.pointerEvent(
+                  button1Down: false,
+                  button2Down: false,
+                  button3Down: false,
+                  button4Down: false,
+                  button5Down: false,
+                  button6Down: false,
+                  button7Down: false,
+                  button8Down: false,
+                  x: x.toInt(),
+                  y: y.toInt(),
+                ),
+              );
+            },
           );
 }
